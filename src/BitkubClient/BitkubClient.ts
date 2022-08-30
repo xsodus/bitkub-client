@@ -35,10 +35,21 @@ export default class BitkubClient {
     console.log("Bitkub ENV", this.environment);
   }
 
+  /**
+   * Get server time
+   *
+   * @returns {string} Bitkub server time
+   */
   async getServerTime() {
     return axios.get<string>(`${SECURE_API_URL}/servertime`);
   }
 
+  /**
+   * Build a request payload for Bitkub APIs.
+   *
+   * @param {object} request payload for each API.
+   * @returns A request payload including ts and sig field which are required for any POST APIs.
+   */
   async buildPayload(params = {}) {
     let payload: Record<string, any> = {
       ...params,
@@ -48,6 +59,11 @@ export default class BitkubClient {
     return payload;
   }
 
+  /**
+   * Get market symbols
+   *
+   * @returns A list of symbols in Bitkub market.
+   */
   async getSymbols() {
     return axios.get<BitkubSymbolReturnType>(
       `${SECURE_API_URL}/market/symbols`,
@@ -57,6 +73,11 @@ export default class BitkubClient {
     );
   }
 
+  /**
+   * Get current balances
+   *
+   * @returns A list of current balances
+   */
   async getBalances() {
     return axios.post<BitkubBalancesReturnType>(
       `${SECURE_API_URL}/market/balances`,
@@ -65,6 +86,13 @@ export default class BitkubClient {
     );
   }
 
+  /**
+   * Get bid list from Bitkub
+   *
+   * @param symbol - Trading Symbol (BNB_THB, BTC_THB)
+   * @param limit - Response Limit Size
+   * @returns A list of bid
+   */
   async getBids(symbol: string, limit = 1) {
     const params = {
       sym: symbol,
@@ -79,6 +107,13 @@ export default class BitkubClient {
     );
   }
 
+  /**
+   * Get ask list from Bitkub
+   *
+   * @param symbol - Trading Symbol (THB_BNB, THB_BTC)
+   * @param limit - Response Limit Size
+   * @returns A list of ask
+   */
   async getAsks(symbol: string, limit = 1) {
     const params = {
       sym: symbol,
@@ -99,6 +134,14 @@ export default class BitkubClient {
     return hash;
   }
 
+  /**
+   * Place bid
+   * @param symbol - Trading Symbol (THB_BNB, THB_BTC)
+   * @param amount - Buy amount
+   * @param rate - Price rate
+   * @param orderType - Order type (LIMIT, MARKET)
+   * @returns Result of placing bid
+   */
   async placeBid(
     symbol: BitkubSymbolEnum,
     amount: number,
@@ -123,6 +166,14 @@ export default class BitkubClient {
     );
   }
 
+  /**
+   * Place ask
+   * @param symbol - Trading Symbol (THB_BNB, THB_BTC)
+   * @param amount - Sell amount
+   * @param rate - Price rate
+   * @param orderType - Order type (LIMIT, MARKET)
+   * @returns Result of placing ask
+   */
   async placeAsk(
     symbol: BitkubSymbolEnum,
     amount: number,
