@@ -20,9 +20,13 @@ yarn add bitkub-client
 2. Create an `BitkubClient` object by putting them to the constructor.
 
 ```
-import BitkubClient from "bitkub-client"
+import BitkubClient, {BitkubEnvironment} from "bitkub-client"
 
-const client = new BitkubClient("[YOUR_API_KEY]","[YOUR_API_SECRET]",BitkubEnvironment.PRODUCTION);
+const client = new BitkubClient (
+    "[YOUR_API_KEY]",
+    "[YOUR_API_SECRET]",
+    BitkubEnvironment.PRODUCTION
+);
 ```
 
 3. Now, you can call the [Bitkub API](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) through these functions
