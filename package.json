@@ -2,14 +2,10 @@
   "name": "bitkub-client",
   "version": "1.0.4",
   "description": "A client wrapper class for calling the Bitkub APIs",
-  "main": "dist/src/index.d.js",
-  "typings": "dist/src/types.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.d.js",
   "scripts": {
     "test": "jest test --silent",
-    "build": "tsc --module commonjs"
+    "build": "tsc --module amd"
   },
   "keywords": [
     "Bitkub",
