@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true /* Allow javascript files to be compiled. */,
-    "noEmit": true /* Do not emit outputs. */,
     "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
 
     /* Strict Type-Checking Options */
