@@ -1,7 +1,7 @@
 {
   "name": "bitkub-client",
-  "version": "1.0.1",
-  "description": "Bitkub client wrapper class for calling Bitkub API",
+  "version": "1.0.2",
+  "description": "A client wrapper class for calling the Bitkub APIs",
   "main": "index.js",
   "scripts": {
     "test": "jest test --silent",
@@ -10,7 +10,6 @@
   "keywords": [
     "Bitkub",
     "API",
-    "Bitkub",
     "Client"
   ],
   "author": "Akkapon Somjai",
