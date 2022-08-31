@@ -1,9 +1,9 @@
 {
   "name": "bitkub-client",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A client wrapper class for calling the Bitkub APIs",
   "main": "dist/src/index.d.js",
-  "typings": "dist/types.d.ts",
+  "typings": "dist/src/types.d.ts",
   "files": [
     "dist"
   ],
