@@ -5,7 +5,7 @@ import {
   BitkubOrderType,
   BitkubSymbolEnum,
   BitkubSymbolReturnType,
-} from "./types";
+} from "./models";
 
 let client: BitkubClient;
 

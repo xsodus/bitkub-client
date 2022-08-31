@@ -1,5 +1,7 @@
-export const BITKUB_API_KEY_HEADER_NAME = "x-btk-apikey";
-export const CONTENT_TYPE_HEADER_NAME = "content-type";
+import {
+  BITKUB_API_KEY_HEADER_NAME,
+  CONTENT_TYPE_HEADER_NAME,
+} from "./constants";
 
 export enum BitkubErrorCode {
   NO_ERROR = 0,

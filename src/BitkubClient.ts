@@ -1,6 +1,7 @@
 import axios from "axios";
 import crypto from "crypto";
 import querystring from "querystring";
+import { SECURE_API_URL } from "./constants";
 import {
   BitkubBalancesReturnType,
   BitkubBidReturnType,
@@ -9,9 +10,7 @@ import {
   BitkubOrderType,
   BitkubSymbolEnum,
   BitkubSymbolReturnType,
-} from "./types";
-
-const SECURE_API_URL = "https://api.bitkub.com/api";
+} from "./models";
 
 export default class BitkubClient {
   apiKey: string;

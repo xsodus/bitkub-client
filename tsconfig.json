@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowJs": true /* Allow javascript files to be compiled. */,
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
     "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
@@ -8,10 +7,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "skipLibCheck": false /* Skip type checking of declaration files. */,
-    "target": "ESNEXT",
-    "module": "amd",
-    "outFile": "./dist/index.js",
-    "rootDir": ".",
+    "target": "ES2016",
+    "module": "commonjs",
+    "outDir": "./dist",
     "declaration": true
   },
   "include": ["src/**/*"],
