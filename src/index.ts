@@ -1,4 +1,14 @@
-import * as models from "./models";
-
 export { default } from "./BitkubClient";
-export { models };
+export {
+  BitkubBalancesReturnType,
+  BitkubBidReturnType,
+  BitkubEnvironment,
+  BitkubErrorCode,
+  BitkubHeaderType,
+  BitkubOrderInfoType,
+  BitkubOrderType,
+  BitkubOrderTypeEnum,
+  BitkubSymbolEnum,
+  BitkubSymbolInfo,
+  BitkubSymbolReturnType,
+} from "./models";
