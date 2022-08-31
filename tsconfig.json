@@ -13,10 +13,11 @@
     "skipLibCheck": false /* Skip type checking of declaration files. */,
     "target": "ESNEXT",
     "module": "commonjs",
-    "outDir": "./build",
-    "rootDir": "." /* assuming that your code live in ./src */,
-    "baseUrl": "./functions"
+    "outDir": "./dist",
+    "rootDir": ".",
+    "declaration": true
   },
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "babel.config.js",
