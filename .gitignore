@@ -3,3 +3,7 @@ reports
 dist
 docs
 .env
+
+# Local Netlify folder
+.netlify
+public
