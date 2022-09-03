@@ -95,7 +95,7 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of bid
    */
-  async getBids(symbol: string, limit = 1) {
+  async getBids(symbol: string | BitkubSymbolEnum, limit = 1) {
     const params = {
       sym: symbol,
       lmt: limit,
@@ -116,7 +116,7 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of ask
    */
-  async getAsks(symbol: string, limit = 1) {
+  async getAsks(symbol: string | BitkubSymbolEnum, limit = 1) {
     const params = {
       sym: symbol,
       lmt: limit,

@@ -87,13 +87,3 @@ export enum BitkubEnvironment {
   TEST = "test",
   PRODUCTION = "production",
 }
-
-export enum BitkubOrderTypeEnum {
-  BUY = "buy",
-  SELL = "sell",
-}
-
-export type BitkubOrderInfoType = {
-  action: string;
-  symbol: BitkubSymbolEnum;
-};
