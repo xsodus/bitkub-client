@@ -111,7 +111,7 @@ describe("Bitkub client", () => {
     const { error } = response.data;
     const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
     const isEmptyWallet = error === BitkubErrorCode.EMPTY_WALLET;
-    const isLowAmount = error === BitkubErrorCode.LOW_AMOUNT;
+    const isLowAmount = error === BitkubErrorCode.AMOUNT_TOO_LOW;
     expect(isCheckingBody || isEmptyWallet || isLowAmount).toBeTruthy();
 
     if (isEmptyWallet)

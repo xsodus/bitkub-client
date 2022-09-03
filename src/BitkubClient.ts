@@ -1,7 +1,11 @@
 import axios from "axios";
 import crypto from "crypto";
 import querystring from "querystring";
-import { SECURE_API_URL } from "./constants";
+import {
+  BITKUB_API_KEY_HEADER_NAME,
+  CONTENT_TYPE_HEADER_NAME,
+  SECURE_API_URL,
+} from "./constants";
 import {
   BitkubBalancesReturnType,
   BitkubBidReturnType,
@@ -26,12 +30,11 @@ export default class BitkubClient {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
     this.httpHeaders = {
-      "x-btk-apikey": apiKey,
+      [BITKUB_API_KEY_HEADER_NAME]: apiKey,
       accept: "application/json",
-      "content-type": "application/json",
+      [CONTENT_TYPE_HEADER_NAME]: "application/json",
     };
     this.environment = environment;
-    console.log("Bitkub ENV", this.environment);
   }
 
   /**
@@ -142,7 +145,7 @@ export default class BitkubClient {
    * @returns Result of placing bid
    */
   async placeBid(
-    symbol: BitkubSymbolEnum,
+    symbol: BitkubSymbolEnum | string,
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
@@ -174,7 +177,7 @@ export default class BitkubClient {
    * @returns Result of placing ask
    */
   async placeAsk(
-    symbol: BitkubSymbolEnum,
+    symbol: BitkubSymbolEnum | string,
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
