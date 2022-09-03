@@ -1,6 +1,6 @@
 {
   "name": "bitkub-client",
-  "version": "1.0.12",
+  "version": "1.0.17",
   "description": "A client wrapper class for calling the Bitkub APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,6 +8,7 @@
     "/dist"
   ],
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "jest test --silent",
     "build": "tsc",
     "build:docs": "mkdir public && typedoc src/* && mv docs/* public"
