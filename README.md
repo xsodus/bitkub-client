@@ -59,7 +59,7 @@ We only create the integration tests which we can make sure that the request are
 
 You can run the them through `yarn test`.
 
-However, it normally skip to test the functions which affect to personal data such as getting balances, bid placing , bid asking and so. It you want to run the test against these features, you need to create `.env` at the root directory then add these configs to turn on the tests.
+However, it normally skip to test the functions which affect to personal data such as getting balances, bid placing , ask placing and so. It you want to run the test against these features, you need to create `.env` at the root directory then add these configs to turn on the tests.
 
 ```
 IS_FULL_TESTING=true
