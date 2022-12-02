@@ -39,16 +39,6 @@ const requestPayload = client.buildPayload({amount:100, ...});
 
 # Contributions
 
-## Donation
-
-If this project is useful for your work, sponsor me by sending any crypto coins to my blockchain wallet. This would motivate me to continue on this project and other projects.
-
-Wallet Address (BEP20 chain):
-
-```
-0x5DC0cFC202718adeA0B89df9099e4065FD341d38
-```
-
 ## Pull Requests
 
 I'am welcomed to any incoming pull request. Don't hesitate to submit it. Thanks!
