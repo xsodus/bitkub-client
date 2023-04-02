@@ -28,7 +28,8 @@ export default class BitkubClient {
   constructor(
     apiKey: string,
     apiSecret: string,
-    environment: BitkubEnvironment = BitkubEnvironment.TEST
+    environment: BitkubEnvironment = BitkubEnvironment.TEST,
+    baseApiUrl: string = SECURE_API_URL
   ) {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
@@ -41,7 +42,7 @@ export default class BitkubClient {
     this.axiosInstance = axios.create({
       headers: this.requestHeaders,
       timeout: 10000,
-      baseURL: SECURE_API_URL,
+      baseURL: baseApiUrl,
     });
   }
 
