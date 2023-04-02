@@ -1,10 +1,9 @@
 import BitkubClient from "./BitkubClient";
 import {
-  BitkubBalancesReturnType,
+  BalancesResponse,
   BitkubErrorCode,
   BitkubOrderType,
-  BitkubSymbolEnum,
-  BitkubSymbolReturnType,
+  SymbolResponse,
 } from "./models";
 
 let client: BitkubClient;
@@ -35,7 +34,7 @@ describe("Bitkub client", () => {
 
   it("Get symbols", async () => {
     const result = await client.getSymbols();
-    const content: BitkubSymbolReturnType = result.data;
+    const content: SymbolResponse = result.data;
 
     console.log("Bitkub All Symbols:", content);
     expect(content).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
@@ -44,14 +43,14 @@ describe("Bitkub client", () => {
 
   itif("Get balances", async () => {
     const result = await client.getBalances();
-    const content: BitkubBalancesReturnType = result.data;
+    const content: BalancesResponse = result.data;
     expect(content).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
     expect(content).toHaveProperty("result.THB.available");
     expect(content).toHaveProperty("result.THB.reserved");
   });
 
   it("Get bids", async () => {
-    const response = await client.getBids(BitkubSymbolEnum.THB_BTC);
+    const response = await client.getBids("THB_BTC");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
     const [orderId, timestamp, volume, rate, amount] = response.data.result[0];
@@ -64,7 +63,7 @@ describe("Bitkub client", () => {
   });
 
   it("Get asks", async () => {
-    const response = await client.getAsks(BitkubSymbolEnum.THB_BTC);
+    const response = await client.getAsks("THB_BTC");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
     const [orderId, timestamp, volume, rate, amount] = response.data.result[0];
@@ -79,7 +78,7 @@ describe("Bitkub client", () => {
   itif("Open position in sandbox environment", async () => {
     // You need to refill THAI baht to your account before calling this.
     const response = await client.placeBid(
-      BitkubSymbolEnum.THB_BTC,
+      "THB_BTC",
       100,
       0,
       BitkubOrderType.MARKET
@@ -103,7 +102,7 @@ describe("Bitkub client", () => {
 
   itif("Close position in sandbox environment", async () => {
     const response = await client.placeAsk(
-      BitkubSymbolEnum.THB_KUB,
+      "THB_KUB",
       0.1,
       0,
       BitkubOrderType.MARKET

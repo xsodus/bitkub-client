@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 import crypto from "crypto";
 import querystring from "querystring";
 import {
@@ -7,20 +7,22 @@ import {
   SECURE_API_URL,
 } from "./constants";
 import {
-  BitkubBalancesReturnType,
-  BitkubBidReturnType,
+  AskResponse,
+  BalancesResponse,
+  BidResponse,
   BitkubEnvironment,
   BitkubHeaderType,
   BitkubOrderType,
-  BitkubSymbolEnum,
-  BitkubSymbolReturnType,
+  PlaceAskResponse,
+  PlaceBidResponse,
+  SymbolResponse,
 } from "./models";
 
 export default class BitkubClient {
   apiKey: string;
   apiSecret: string;
-  httpHeaders: BitkubHeaderType;
   environment: BitkubEnvironment;
+  axiosInstance: Axios;
 
   constructor(
     apiKey: string,
@@ -29,12 +31,17 @@ export default class BitkubClient {
   ) {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
-    this.httpHeaders = {
+    const headers: BitkubHeaderType = {
       [BITKUB_API_KEY_HEADER_NAME]: apiKey,
       accept: "application/json",
       [CONTENT_TYPE_HEADER_NAME]: "application/json",
     };
     this.environment = environment;
+    this.axiosInstance = axios.create({
+      headers,
+      timeout: 10000,
+      baseURL: SECURE_API_URL,
+    });
   }
 
   /**
@@ -43,7 +50,7 @@ export default class BitkubClient {
    * @returns {string} Bitkub server time
    */
   async getServerTime() {
-    return axios.get<string>(`${SECURE_API_URL}/servertime`);
+    return this.axiosInstance.get<string>("/servertime");
   }
 
   /**
@@ -67,12 +74,7 @@ export default class BitkubClient {
    * @returns A list of symbols in Bitkub market.
    */
   async getSymbols() {
-    return axios.get<BitkubSymbolReturnType>(
-      `${SECURE_API_URL}/market/symbols`,
-      {
-        headers: this.httpHeaders,
-      }
-    );
+    return this.axiosInstance.get<SymbolResponse>(`/market/symbols`);
   }
 
   /**
@@ -81,10 +83,9 @@ export default class BitkubClient {
    * @returns A list of current balances
    */
   async getBalances() {
-    return axios.post<BitkubBalancesReturnType>(
-      `${SECURE_API_URL}/market/balances`,
-      await this.buildPayload(),
-      { headers: this.httpHeaders }
+    return this.axiosInstance.post<BalancesResponse>(
+      `/market/balances`,
+      await this.buildPayload()
     );
   }
 
@@ -95,18 +96,13 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of bid
    */
-  async getBids(symbol: string | BitkubSymbolEnum, limit = 1) {
+  async getBids(symbol: string, limit = 1) {
     const params = {
       sym: symbol,
       lmt: limit,
     };
     const queryParams = querystring.stringify(await this.buildPayload(params));
-    return axios.get<BitkubBidReturnType>(
-      `${SECURE_API_URL}/market/bids?${queryParams}`,
-      {
-        headers: this.httpHeaders,
-      }
-    );
+    return this.axiosInstance.get<BidResponse>(`/market/bids?${queryParams}`);
   }
 
   /**
@@ -116,15 +112,13 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of ask
    */
-  async getAsks(symbol: string | BitkubSymbolEnum, limit = 1) {
+  async getAsks(symbol: string, limit = 1) {
     const params = {
       sym: symbol,
       lmt: limit,
     };
     const queryParams = querystring.stringify(await this.buildPayload(params));
-    return axios.get(`${SECURE_API_URL}/market/asks?${queryParams}`, {
-      headers: this.httpHeaders,
-    });
+    return this.axiosInstance.get<AskResponse>(`/market/asks?${queryParams}`);
   }
 
   generateSignature(payload: Record<string, any>) {
@@ -145,7 +139,7 @@ export default class BitkubClient {
    * @returns Result of placing bid
    */
   async placeBid(
-    symbol: BitkubSymbolEnum | string,
+    symbol: string,
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
@@ -159,12 +153,14 @@ export default class BitkubClient {
     };
     if (clientId) params["client_id"] = clientId;
 
-    return axios.post(
-      `${SECURE_API_URL}/market/place-bid${
-        this.environment === BitkubEnvironment.TEST ? "/test" : ""
-      }`,
-      await this.buildPayload(params),
-      { headers: this.httpHeaders }
+    const placeBidApiUrl =
+      this.environment === BitkubEnvironment.TEST
+        ? "/market/place-bid/test"
+        : "/market/v2/place-bid";
+
+    return this.axiosInstance.post<PlaceBidResponse>(
+      placeBidApiUrl,
+      await this.buildPayload(params)
     );
   }
 
@@ -177,7 +173,7 @@ export default class BitkubClient {
    * @returns Result of placing ask
    */
   async placeAsk(
-    symbol: BitkubSymbolEnum | string,
+    symbol: string,
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
@@ -191,12 +187,14 @@ export default class BitkubClient {
     };
     if (clientId) params["client_id"] = clientId;
 
-    return axios.post(
-      `${SECURE_API_URL}/market/place-ask${
-        this.environment === BitkubEnvironment.TEST ? "/test" : ""
-      }`,
-      await this.buildPayload(params),
-      { headers: this.httpHeaders }
+    const placeAskApiUrl =
+      this.environment === BitkubEnvironment.TEST
+        ? "/market/place-ask/test"
+        : "/market/v2/place-ask";
+
+    return this.axiosInstance.post<PlaceAskResponse>(
+      placeAskApiUrl,
+      await this.buildPayload(params)
     );
   }
 }

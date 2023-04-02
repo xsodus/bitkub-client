@@ -1,6 +1,6 @@
 export { default } from "./BitkubClient";
 export {
-  BitkubBalancesReturnType,
+  BalancesResponse as BitkubBalancesReturnType,
   BitkubBidReturnType,
   BitkubEnvironment,
   BitkubErrorCode,
@@ -8,5 +8,5 @@ export {
   BitkubOrderType,
   BitkubSymbolEnum,
   BitkubSymbolInfo,
-  BitkubSymbolReturnType,
+  SymbolResponse as BitkubSymbolReturnType,
 } from "./models";
