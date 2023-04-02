@@ -102,7 +102,6 @@ describe("Bitkub client", () => {
 
     const placeBidResult = response.data.result;
 
-    console.log("placeBidResultest", placeBidResult);
     expect(placeBidResult).toMatchSnapshot();
   });
 
@@ -124,8 +123,6 @@ describe("Bitkub client", () => {
     );
 
     const placeAskResult = response.data.result;
-
-    console.log("placeAskResult", placeAskResult);
 
     expect(placeAskResult).toMatchSnapshot();
   });
@@ -150,8 +147,6 @@ describe("Bitkub client", () => {
 
     const placeBidResultest = response.data.result;
 
-    console.log("placeBidResultest", placeBidResultest);
-
     expect(placeBidResultest).toMatchSnapshot();
   });
 
@@ -159,7 +154,6 @@ describe("Bitkub client", () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
     client.setBaseApiUrl("http://localhost:9876");
 
-    // You need to refill THAI baht to your account before calling this.
     nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
 
     nock("http://localhost:9876")
@@ -187,8 +181,6 @@ describe("Bitkub client", () => {
     }
 
     const placeAskResult = response.data.result;
-
-    console.log("placeAskResult", placeAskResult);
 
     expect(placeAskResult).toMatchSnapshot();
   });
