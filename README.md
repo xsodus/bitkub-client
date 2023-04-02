@@ -56,3 +56,5 @@ IS_FULL_TESTING=true
 BITKUB_API_KEY=[BITKUB_API_KEY]
 BITKUB_API_SECRET=[BITKUB_API_SECRET]
 ```
+
+Anyway, I suggest to create the mock API by `nock` library. This will avoid changing the account data. And we can ensure the client will call the API correctly

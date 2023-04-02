@@ -23,6 +23,7 @@ export default class BitkubClient {
   apiSecret: string;
   environment: BitkubEnvironment;
   axiosInstance: Axios;
+  requestHeaders: BitkubHeaderType;
 
   constructor(
     apiKey: string,
@@ -31,16 +32,28 @@ export default class BitkubClient {
   ) {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
-    const headers: BitkubHeaderType = {
+    this.requestHeaders = {
       [BITKUB_API_KEY_HEADER_NAME]: apiKey,
       accept: "application/json",
       [CONTENT_TYPE_HEADER_NAME]: "application/json",
     };
     this.environment = environment;
     this.axiosInstance = axios.create({
-      headers,
+      headers: this.requestHeaders,
       timeout: 10000,
       baseURL: SECURE_API_URL,
+    });
+  }
+
+  /**
+   * Change the base url in axios configuration
+   * @param url
+   */
+  setBaseApiUrl(url: string) {
+    this.axiosInstance = axios.create({
+      headers: this.requestHeaders,
+      timeout: 10000,
+      baseURL: url,
     });
   }
 

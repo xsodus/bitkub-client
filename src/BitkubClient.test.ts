@@ -1,6 +1,10 @@
+import nock from "nock";
 import BitkubClient from "./BitkubClient";
+import bitkubPlaceBidResponse from "./__mocks__/bitkubBuyResponse.json";
+import bitkubPlaceAskResponse from "./__mocks__/bitkubSellResponse.json";
 import {
   BalancesResponse,
+  BitkubEnvironment,
   BitkubErrorCode,
   BitkubOrderType,
   SymbolResponse,
@@ -10,12 +14,15 @@ let client: BitkubClient;
 
 const itif = process.env?.IS_FULL_TESTING === "true" ? it : it.skip;
 
-beforeAll(() => {
+beforeEach(() => {
   client = new BitkubClient(
     process.env.BITKUB_API_KEY || "",
     process.env.BITKUB_API_SECRET || ""
   );
-  return true;
+});
+
+afterEach(() => {
+  nock.cleanAll();
 });
 
 describe("Bitkub client", () => {
@@ -75,8 +82,64 @@ describe("Bitkub client", () => {
     expect(amount).not.toBeUndefined();
   });
 
-  itif("Open position in sandbox environment", async () => {
-    // You need to refill THAI baht to your account before calling this.
+  it("Open position through mocked server", async () => {
+    client = new BitkubClient("", "", BitkubEnvironment.PRODUCTION);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/v2/place-bid")
+      .reply(200, bitkubPlaceBidResponse);
+
+    const response = await client.placeBid(
+      "THB_BTC",
+      100,
+      0,
+      BitkubOrderType.MARKET
+    );
+    expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
+
+    const placeBidResult = response.data.result;
+
+    console.log("placeBidResultest", placeBidResult);
+    expect(placeBidResult).toMatchSnapshot();
+  });
+
+  it("Close position through mocked server", async () => {
+    client = new BitkubClient("", "", BitkubEnvironment.PRODUCTION);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/v2/place-ask")
+      .reply(200, bitkubPlaceAskResponse);
+
+    const response = await client.placeAsk(
+      "THB_KUB",
+      0.1,
+      0,
+      BitkubOrderType.MARKET
+    );
+
+    const placeAskResult = response.data.result;
+
+    console.log("placeAskResult", placeAskResult);
+
+    expect(placeAskResult).toMatchSnapshot();
+  });
+
+  it("Open position in sandbox environment with mocked APIs", async () => {
+    client = new BitkubClient("", "", BitkubEnvironment.TEST);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/place-bid/test")
+      .reply(200, bitkubPlaceBidResponse);
+
     const response = await client.placeBid(
       "THB_BTC",
       100,
@@ -89,18 +152,20 @@ describe("Bitkub client", () => {
 
     console.log("placeBidResultest", placeBidResultest);
 
-    expect(placeBidResultest).toHaveProperty("id");
-    expect(placeBidResultest).toHaveProperty("hash");
-    expect(placeBidResultest).toHaveProperty("typ");
-    expect(placeBidResultest).toHaveProperty("amt");
-    expect(placeBidResultest).toHaveProperty("rat");
-    expect(placeBidResultest).toHaveProperty("fee");
-    expect(placeBidResultest).toHaveProperty("cre");
-    expect(placeBidResultest).toHaveProperty("rec");
-    expect(placeBidResultest).toHaveProperty("ts");
+    expect(placeBidResultest).toMatchSnapshot();
   });
 
-  itif("Close position in sandbox environment", async () => {
+  it("Close position in sandbox environment with mocked APIs", async () => {
+    client = new BitkubClient("", "", BitkubEnvironment.TEST);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    // You need to refill THAI baht to your account before calling this.
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/place-ask/test")
+      .reply(200, bitkubPlaceBidResponse);
+
     const response = await client.placeAsk(
       "THB_KUB",
       0.1,
@@ -125,14 +190,6 @@ describe("Bitkub client", () => {
 
     console.log("placeAskResult", placeAskResult);
 
-    expect(placeAskResult).toHaveProperty("id");
-    expect(placeAskResult).toHaveProperty("hash");
-    expect(placeAskResult).toHaveProperty("typ");
-    expect(placeAskResult).toHaveProperty("amt");
-    expect(placeAskResult).toHaveProperty("rat");
-    expect(placeAskResult).toHaveProperty("fee");
-    expect(placeAskResult).toHaveProperty("cre");
-    expect(placeAskResult).toHaveProperty("rec");
-    expect(placeAskResult).toHaveProperty("ts");
+    expect(placeAskResult).toMatchSnapshot();
   });
 });

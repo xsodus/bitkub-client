@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bitkub client Close position in sandbox environment 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Close position through mocked server 1`] = `
+{
+  "amt": 0.10289851,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642095192,
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Open position in sandbox environment 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Open position in sandbox environment with mocked APIs 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Open position through mocked server 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
+  "typ": "market",
+}
+`;
