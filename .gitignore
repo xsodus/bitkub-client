@@ -7,3 +7,4 @@ docs
 # Local Netlify folder
 .netlify
 public
+.yarn
