@@ -49,12 +49,4 @@ We only create the integration tests which we can make sure that the request are
 
 You can run the them through `yarn test`.
 
-However, it normally skip to test the functions which affect to personal data such as getting balances, bid placing , ask placing and so. It you want to run the test against these features, you need to create `.env` at the root directory then add these configs to turn on the tests.
-
-```
-IS_FULL_TESTING=true
-BITKUB_API_KEY=[BITKUB_API_KEY]
-BITKUB_API_SECRET=[BITKUB_API_SECRET]
-```
-
-Anyway, I suggest to create the mock API by `nock` library. This will avoid changing the account data. And we can ensure the client will call the API correctly
+To writing the test, I suggest to create the mock API by `nock` library. This will avoid changing the account data. And we can ensure the client will call the API correctly. You can see the example test in `BitkubClient.test.ts`

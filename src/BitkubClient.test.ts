@@ -1,9 +1,10 @@
 import nock from "nock";
 import BitkubClient from "./BitkubClient";
+import bitkubBalanceResponse from "./__mocks__/bitkubBalanceResponse.json";
 import bitkubPlaceBidResponse from "./__mocks__/bitkubBuyResponse.json";
 import bitkubPlaceAskResponse from "./__mocks__/bitkubSellResponse.json";
+import bitkubTestPlaceBidResponse from "./__mocks__/bitkubTestBuyResponse.json";
 import {
-  BalancesResponse,
   BitkubEnvironment,
   BitkubErrorCode,
   BitkubOrderType,
@@ -11,8 +12,6 @@ import {
 } from "./models";
 
 let client: BitkubClient;
-
-const itif = process.env?.IS_FULL_TESTING === "true" ? it : it.skip;
 
 beforeEach(() => {
   client = new BitkubClient(
@@ -48,12 +47,18 @@ describe("Bitkub client", () => {
     expect(content).toHaveProperty("result");
   });
 
-  itif("Get balances", async () => {
+  it("Get balances", async () => {
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/balances")
+      .reply(200, bitkubBalanceResponse);
+
     const result = await client.getBalances();
-    const content: BalancesResponse = result.data;
-    expect(content).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
-    expect(content).toHaveProperty("result.THB.available");
-    expect(content).toHaveProperty("result.THB.reserved");
+    const content = result.data;
+    expect(content).toMatchSnapshot();
   });
 
   it("Get bids", async () => {
@@ -83,7 +88,7 @@ describe("Bitkub client", () => {
   });
 
   it("Open position through mocked server", async () => {
-    client = new BitkubClient("", "", BitkubEnvironment.PRODUCTION);
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.setBaseApiUrl("http://localhost:9876");
 
     nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
@@ -93,7 +98,7 @@ describe("Bitkub client", () => {
       .reply(200, bitkubPlaceBidResponse);
 
     const response = await client.placeBid(
-      "THB_BTC",
+      "THB_DOGE",
       100,
       0,
       BitkubOrderType.MARKET
@@ -106,7 +111,7 @@ describe("Bitkub client", () => {
   });
 
   it("Close position through mocked server", async () => {
-    client = new BitkubClient("", "", BitkubEnvironment.PRODUCTION);
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.setBaseApiUrl("http://localhost:9876");
 
     nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
@@ -116,7 +121,7 @@ describe("Bitkub client", () => {
       .reply(200, bitkubPlaceAskResponse);
 
     const response = await client.placeAsk(
-      "THB_KUB",
+      "THB_DOGE",
       0.1,
       0,
       BitkubOrderType.MARKET
@@ -135,7 +140,7 @@ describe("Bitkub client", () => {
 
     nock("http://localhost:9876")
       .post("/market/place-bid/test")
-      .reply(200, bitkubPlaceBidResponse);
+      .reply(200, bitkubTestPlaceBidResponse);
 
     const response = await client.placeBid(
       "THB_BTC",
@@ -145,9 +150,9 @@ describe("Bitkub client", () => {
     );
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
-    const placeBidResultest = response.data.result;
+    const placeBidResult = response.data.result;
 
-    expect(placeBidResultest).toMatchSnapshot();
+    expect(placeBidResult).toMatchSnapshot();
   });
 
   it("Close position in sandbox environment with mocked APIs", async () => {
@@ -158,7 +163,7 @@ describe("Bitkub client", () => {
 
     nock("http://localhost:9876")
       .post("/market/place-ask/test")
-      .reply(200, bitkubPlaceBidResponse);
+      .reply(200, bitkubTestPlaceBidResponse);
 
     const response = await client.placeAsk(
       "THB_KUB",

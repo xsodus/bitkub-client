@@ -59,6 +59,15 @@ export default class BitkubClient {
   }
 
   /**
+   * Change environment to call API
+   * It will affect to call place-bid and place-ask api.
+   * @param environment
+   */
+  setEnvironment(environment: BitkubEnvironment) {
+    this.environment = environment;
+  }
+
+  /**
    * Get server time
    *
    * @returns {string} Bitkub server time

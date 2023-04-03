@@ -1,411 +1,353 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`] = `
-{
-  "amt": 100,
-  "cre": 0,
-  "fee": 0,
-  "hash": "test",
-  "id": "0",
-  "rat": 0,
-  "rec": 0,
-  "ts": 1642094235,
-  "typ": "market",
-}
-`;
-
-exports[`Bitkub client Close position through mocked server 1`] = `
-[
-  [
-    "1",
-    1529453033,
-    997.5,
-    1123459,
-    0.09975,
-  ],
-]
-`;
-
-exports[`Bitkub client Get balances 1`] = `
 {
   "error": 0,
   "result": {
     "1INCH": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "AAVE": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ABT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ADA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ALGO": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ALPHA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "APE": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ATOM": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "AVAX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "AXL": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "AXS": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BAL": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BAND": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BAT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BCH": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BNB": {
       "available": 0.08779727,
-      "reserved": 0,
+      "reserved": 0
     },
     "BOBA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "BTC": {
       "available": 0.00112343,
-      "reserved": 0,
+      "reserved": 0
     },
     "BUSD": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "CELO": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "CHZ": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "COMP": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "CRV": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "CTXC": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "CVC": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "DAI": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "DOGE": {
       "available": 379.58065375,
-      "reserved": 0,
+      "reserved": 0
     },
     "DON": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "DOT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "DYDX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ENJ": {
       "available": 67.03629032,
-      "reserved": 0,
+      "reserved": 0
     },
     "ENS": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ETH": {
       "available": 0.01736505,
-      "reserved": 0,
+      "reserved": 0
     },
     "EXFI": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "FLR": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "FTM": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "FTT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GAL": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GALA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GF": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GLM": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GRT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "GT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "HBAR": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ILV": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "IMX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "IOST": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "JFIN": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "KNC": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "KSM": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "KUB": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "LDO": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "LINK": {
       "available": 4.15521119,
-      "reserved": 0,
+      "reserved": 0
     },
     "LRC": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "LUNA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "LUNA2": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "LYXE": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "MANA": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "MATIC": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "MKR": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "NEAR": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "OCEAN": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "OMG": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "OP": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "POW": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SAND": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SCRT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SGB": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SIX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SNT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SNX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SOL": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SOLO": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "STG": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "SUSHI": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "THB": {
       "available": 14780.5,
-      "reserved": 0,
+      "reserved": 0
     },
     "TRX": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "UNI": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "USDC": {
       "available": 30.24,
-      "reserved": 0,
+      "reserved": 0
     },
     "USDT": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "WAN": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "XLM": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "XRP": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "XTZ": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "YFI": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ZIL": {
       "available": 0,
-      "reserved": 0,
+      "reserved": 0
     },
     "ZRX": {
       "available": 0,
-      "reserved": 0,
-    },
-  },
+      "reserved": 0
+    }
+  }
 }
-`;
-
-exports[`Bitkub client Open position in sandbox environment with mocked APIs 1`] = `
-{
-  "amt": 100,
-  "cre": 0,
-  "fee": 0,
-  "hash": "test",
-  "id": "0",
-  "rat": 0,
-  "rec": 0,
-  "ts": 1642094235,
-  "typ": "market",
-}
-`;
-
-exports[`Bitkub client Open position through mocked server 1`] = `
-{
-  "amt": 1000,
-  "cre": 0,
-  "fee": 0,
-  "hash": "fwQ6dnn922n912C1TJdJTxujube",
-  "id": 138257377,
-  "rat": 0,
-  "rec": 0,
-  "ts": "1680486333",
-  "typ": "market",
-}
-`;
