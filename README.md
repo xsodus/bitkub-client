@@ -41,12 +41,12 @@ const requestPayload = client.buildPayload({amount:100, ...});
 
 ## Pull Requests
 
-I'am welcomed to any incoming pull request. Don't hesitate to submit it. Thanks!
+I'am welcomed for any incoming pull requests. Don't hesitate to submit it. Thanks!
 
 ## Test Running
 
 We only create the integration tests which we can make sure that the request are proceeded in the Bitkub servers.
 
-You can run the them through `yarn test`.
+You can run them through `yarn test`.
 
-To writing the test, I suggest to create the mock API by `nock` library. This will avoid changing the account data. And we can ensure the client will call the API correctly. You can see the example test in `BitkubClient.test.ts`
+To write the test, I suggest to create the mock API by `nock` library. This will avoid changing the account data. And we can ensure the client will call the API correctly. You can see the example test in `BitkubClient.test.ts`
