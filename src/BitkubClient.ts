@@ -19,11 +19,11 @@ import {
 } from "./models";
 
 export default class BitkubClient {
-  apiKey: string;
-  apiSecret: string;
-  environment: BitkubEnvironment;
-  axiosInstance: Axios;
-  requestHeaders: BitkubHeaderType;
+  private apiKey: string;
+  private apiSecret: string;
+  private environment: BitkubEnvironment;
+  private axiosInstance: Axios;
+  private requestHeaders: BitkubHeaderType;
 
   constructor(
     apiKey: string,
