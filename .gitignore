@@ -8,3 +8,4 @@ docs
 .netlify
 public
 .yarn
+.vscode
