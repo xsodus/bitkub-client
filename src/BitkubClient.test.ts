@@ -11,6 +11,8 @@ import {
   SymbolResponse,
 } from "./models";
 
+const TEST_API_URL = "http://localhost:9876";
+
 let client: BitkubClient;
 
 beforeEach(() => {
@@ -48,11 +50,11 @@ describe("Bitkub client", () => {
   });
 
   it("Get balances", async () => {
-    client.setBaseApiUrl("http://localhost:9876");
+    client.setBaseApiUrl(TEST_API_URL);
 
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
 
-    nock("http://localhost:9876")
+    nock(TEST_API_URL)
       .post("/market/balances")
       .reply(200, bitkubBalanceResponse);
 
@@ -89,11 +91,11 @@ describe("Bitkub client", () => {
 
   it("Open position through mocked server", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
-    client.setBaseApiUrl("http://localhost:9876");
+    client.setBaseApiUrl(TEST_API_URL);
 
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
 
-    nock("http://localhost:9876")
+    nock(TEST_API_URL)
       .post("/market/v2/place-bid")
       .reply(200, bitkubPlaceBidResponse);
 
@@ -112,11 +114,11 @@ describe("Bitkub client", () => {
 
   it("Close position through mocked server", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
-    client.setBaseApiUrl("http://localhost:9876");
+    client.setBaseApiUrl(TEST_API_URL);
 
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
 
-    nock("http://localhost:9876")
+    nock(TEST_API_URL)
       .post("/market/v2/place-ask")
       .reply(200, bitkubPlaceAskResponse);
 
@@ -134,11 +136,11 @@ describe("Bitkub client", () => {
 
   it("Open position in sandbox environment with mocked APIs", async () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
-    client.setBaseApiUrl("http://localhost:9876");
+    client.setBaseApiUrl(TEST_API_URL);
 
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
 
-    nock("http://localhost:9876")
+    nock(TEST_API_URL)
       .post("/market/place-bid/test")
       .reply(200, bitkubTestPlaceBidResponse);
 
@@ -157,11 +159,11 @@ describe("Bitkub client", () => {
 
   it("Close position in sandbox environment with mocked APIs", async () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
-    client.setBaseApiUrl("http://localhost:9876");
+    client.setBaseApiUrl(TEST_API_URL);
 
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
 
-    nock("http://localhost:9876")
+    nock(TEST_API_URL)
       .post("/market/place-ask/test")
       .reply(200, bitkubTestPlaceBidResponse);
 
