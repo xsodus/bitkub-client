@@ -9,4 +9,9 @@ module.exports = {
     "^.+\\.ts?$": "babel-jest",
   },
   setupFiles: ["<rootDir>/jestSetupFile.ts"],
+  coverageThreshold: {
+    global: {
+      lines: 80,
+    },
+  },
 };

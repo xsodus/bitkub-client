@@ -166,7 +166,7 @@ export default class BitkubClient {
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
-    clientId = undefined
+    clientId: string | undefined = undefined
   ) {
     const params: Record<string, any> = {
       sym: symbol,
@@ -200,7 +200,7 @@ export default class BitkubClient {
     amount: number,
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
-    clientId = undefined
+    clientId: string | undefined = undefined
   ) {
     const params: Record<string, any> = {
       sym: symbol,

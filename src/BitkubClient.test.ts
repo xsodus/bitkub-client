@@ -103,7 +103,8 @@ describe("Bitkub client", () => {
       "THB_DOGE",
       100,
       0,
-      BitkubOrderType.MARKET
+      BitkubOrderType.MARKET,
+      "test-client-id"
     );
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
@@ -126,7 +127,8 @@ describe("Bitkub client", () => {
       "THB_DOGE",
       0.1,
       0,
-      BitkubOrderType.MARKET
+      BitkubOrderType.MARKET,
+      "test-client-id"
     );
 
     const placeAskResult = response.data.result;
@@ -175,17 +177,48 @@ describe("Bitkub client", () => {
     );
     const { error } = response.data;
     const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
-    const isEmptyWallet = error === BitkubErrorCode.EMPTY_WALLET;
-    const isLowAmount = error === BitkubErrorCode.AMOUNT_TOO_LOW;
-    expect(isCheckingBody || isEmptyWallet || isLowAmount).toBeTruthy();
 
-    if (isEmptyWallet)
-      console.log("Cannot create a sell order due to empty wallet.");
+    expect(isCheckingBody).toBeTruthy();
 
-    if (!isCheckingBody) {
-      console.log("No response from server");
-      return;
-    }
+    const placeAskResult = response.data.result;
+
+    expect(placeAskResult).toMatchSnapshot();
+  });
+
+  it("Place a bid with default order type", async () => {
+    client = new BitkubClient("", "", BitkubEnvironment.TEST);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/place-bid/test")
+      .reply(200, bitkubTestPlaceBidResponse);
+
+    const response = await client.placeBid("THB_BTC", 100, 0);
+    expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
+
+    const { error } = response.data;
+    const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
+
+    expect(isCheckingBody).toBeTruthy();
+
+    const placeBidResult = response.data.result;
+
+    expect(placeBidResult).toMatchSnapshot();
+  });
+
+  it("Ask a bid with default order type", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.setBaseApiUrl("http://localhost:9876");
+
+    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
+
+    nock("http://localhost:9876")
+      .post("/market/v2/place-ask")
+      .reply(200, bitkubPlaceAskResponse);
+
+    const response = await client.placeAsk("THB_DOGE", 0.1, 0);
 
     const placeAskResult = response.data.result;
 

@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Bitkub client Ask a bid with default order type 1`] = `
+[
+  [
+    "1",
+    1529453033,
+    997.5,
+    1123459,
+    0.09975,
+  ],
+]
+`;
+
 exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`] = `
 {
   "amt": 100,
@@ -406,6 +418,20 @@ exports[`Bitkub client Open position through mocked server 1`] = `
   "rat": 0,
   "rec": 0,
   "ts": "1680486333",
+  "typ": "market",
+}
+`;
+
+exports[`Bitkub client Place a bid with default order type 1`] = `
+{
+  "amt": 100,
+  "cre": 0,
+  "fee": 0,
+  "hash": "test",
+  "id": "0",
+  "rat": 0,
+  "rec": 0,
+  "ts": 1642094235,
   "typ": "market",
 }
 `;
