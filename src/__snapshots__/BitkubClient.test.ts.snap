@@ -1,14 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Bitkub client Ask a bid with default order type 1`] = `
+{
+  "amt": 1,
+  "ci": "input_client_id",
+  "cre": 37.5,
+  "fee": 37.5,
+  "hash": "fwQ6dnQWQPs4cbatFGc9LPnpqyu",
+  "id": "1",
+  "rat": 15000,
+  "rec": 15000,
+  "ts": 1533834844,
+  "typ": "limit",
+}
+`;
+
+exports[`Bitkub client Cancel an order 1`] = `
 [
-  [
-    "1",
-    1529453033,
-    997.5,
-    1123459,
-    0.09975,
-  ],
+  {
+    "amount": 0.93333334,
+    "client_id": "client_id",
+    "credit": 35.01,
+    "fee": 35.01,
+    "hash": "fwQ6dnQWQPs4cbatFSJpMCcKTFR",
+    "id": 2,
+    "parent_id": 1,
+    "rate": 15000,
+    "receive": 14000,
+    "side": "SELL",
+    "super_id": 1,
+    "ts": 1533834844,
+    "type": "limit",
+  },
 ]
 `;
 
@@ -27,15 +50,18 @@ exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`
 `;
 
 exports[`Bitkub client Close position through mocked server 1`] = `
-[
-  [
-    "1",
-    1529453033,
-    997.5,
-    1123459,
-    0.09975,
-  ],
-]
+{
+  "amt": 1,
+  "ci": "input_client_id",
+  "cre": 37.5,
+  "fee": 37.5,
+  "hash": "fwQ6dnQWQPs4cbatFGc9LPnpqyu",
+  "id": "1",
+  "rat": 15000,
+  "rec": 15000,
+  "ts": 1533834844,
+  "typ": "limit",
+}
 `;
 
 exports[`Bitkub client Get balances 1`] = `

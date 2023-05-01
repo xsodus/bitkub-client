@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "jest test --silent",
+    "test": "jest test --silent --coverage",
     "build": "tsc",
     "build:docs": "mkdir public && typedoc src/* && mv docs/* public",
     "publish": "npm publish --access public"

@@ -121,3 +121,20 @@ export interface BidResponse {
   error: BitkubErrorCode;
   result: Array<Array<number | string>>;
 }
+
+export interface OrderRequest {
+  sym?: string;
+  id?: string;
+  sd?: OrderSide;
+  hash: string;
+}
+
+export interface CancelResponse {
+  error: number;
+  result: Result[];
+}
+
+export enum OrderSide {
+  BUY = "buy",
+  SELL = "sell",
+}

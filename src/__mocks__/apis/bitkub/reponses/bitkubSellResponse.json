@@ -1,0 +1,15 @@
+{
+  "error": 0,
+  "result": {
+    "id": "1",
+    "hash": "fwQ6dnQWQPs4cbatFGc9LPnpqyu",
+    "typ": "limit",
+    "amt": 1.0,
+    "rat": 15000,
+    "fee": 37.5,
+    "cre": 37.5,
+    "rec": 15000,
+    "ts": 1533834844,
+    "ci": "input_client_id"
+  }
+}

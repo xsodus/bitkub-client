@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios, { Axios, AxiosInstance, AxiosResponse } from "axios";
 import crypto from "crypto";
 import querystring from "querystring";
 import {
@@ -13,36 +13,65 @@ import {
   BitkubEnvironment,
   BitkubHeaderType,
   BitkubOrderType,
+  CancelResponse,
+  OrderSide,
   PlaceAskResponse,
   PlaceBidResponse,
   SymbolResponse,
 } from "./models";
 
 export default class BitkubClient {
-  private apiKey: string;
-  private apiSecret: string;
-  private environment: BitkubEnvironment;
-  private axiosInstance: Axios;
-  private requestHeaders: BitkubHeaderType;
+  private _apiSecret: string;
+  private _environment: BitkubEnvironment;
+  private _axiosInstance: Axios;
+  private _requestHeaders: BitkubHeaderType | null = null;
+  private _requestTimeout: number;
+  private _baseApiUrl: string;
+  private _apiKey: string;
 
+  /**
+   * Create a new BitkubClient
+   * @param apiKey - Your API Key
+   * @param apiSecret - Your API Secret
+   * @param environment - Environment to call API
+   * @param baseApiUrl - Base API URL
+   * @param requestTimeout - Request timeout in milliseconds
+   */
   constructor(
     apiKey: string,
     apiSecret: string,
     environment: BitkubEnvironment = BitkubEnvironment.TEST,
-    baseApiUrl: string = SECURE_API_URL
+    baseApiUrl: string = SECURE_API_URL,
+    requestTimeout: number = 10000
   ) {
-    this.apiKey = apiKey;
-    this.apiSecret = apiSecret;
-    this.requestHeaders = {
-      [BITKUB_API_KEY_HEADER_NAME]: apiKey,
+    this._apiKey = apiKey;
+    this._baseApiUrl = baseApiUrl;
+    this._apiSecret = apiSecret;
+    this._environment = environment;
+    this._requestTimeout = requestTimeout;
+    this._requestHeaders = this.createAxiosHeader();
+    this._axiosInstance = this.createAxiosInstance();
+  }
+
+  /**
+   * Create axios headers
+   */
+  private createAxiosHeader(): BitkubHeaderType {
+    return {
+      [BITKUB_API_KEY_HEADER_NAME]: this._apiKey,
       accept: "application/json",
       [CONTENT_TYPE_HEADER_NAME]: "application/json",
     };
-    this.environment = environment;
-    this.axiosInstance = axios.create({
-      headers: this.requestHeaders,
-      timeout: 10000,
-      baseURL: baseApiUrl,
+  }
+
+  /**
+   * Create an axios instance
+   */
+  private createAxiosInstance(): AxiosInstance {
+    return axios.create({
+      headers: this._requestHeaders || {},
+      timeout: this._requestTimeout,
+      baseURL: this._baseApiUrl,
     });
   }
 
@@ -50,12 +79,35 @@ export default class BitkubClient {
    * Change the base url in axios configuration
    * @param url
    */
-  setBaseApiUrl(url: string) {
-    this.axiosInstance = axios.create({
-      headers: this.requestHeaders,
-      timeout: 10000,
-      baseURL: url,
-    });
+  set baseApiUrl(url: string) {
+    this._baseApiUrl = url;
+    this._axiosInstance = this.createAxiosInstance();
+  }
+
+  /**
+   * Change the request timeout in axios configuration
+   * @param timeout
+   */
+  set requestTimeout(timeout: number) {
+    this._requestTimeout = timeout;
+    this._axiosInstance = this.createAxiosInstance();
+  }
+
+  /**
+   * Change the api secret in axios configuration
+   * @param value
+   */
+  set apiKey(key: string) {
+    this._apiKey = key;
+    this._requestHeaders = this.createAxiosHeader();
+    this._axiosInstance = this.createAxiosInstance();
+  }
+
+  /**
+   * Change the api secret
+   */
+  set apiSecret(secret: string) {
+    this._apiSecret = secret;
   }
 
   /**
@@ -64,7 +116,7 @@ export default class BitkubClient {
    * @param environment
    */
   setEnvironment(environment: BitkubEnvironment) {
-    this.environment = environment;
+    this._environment = environment;
   }
 
   /**
@@ -72,8 +124,8 @@ export default class BitkubClient {
    *
    * @returns {string} Bitkub server time
    */
-  async getServerTime() {
-    return this.axiosInstance.get<string>("/servertime");
+  async getServerTime(): Promise<AxiosResponse<string>> {
+    return this._axiosInstance.get("/servertime");
   }
 
   /**
@@ -82,7 +134,7 @@ export default class BitkubClient {
    * @param {object} request payload for each API.
    * @returns A request payload including ts and sig field which are required for any POST APIs.
    */
-  async buildPayload(params = {}) {
+  async buildPayload(params = {}): Promise<Record<string, any>> {
     let payload: Record<string, any> = {
       ...params,
       ts: (await this.getServerTime()).data,
@@ -96,8 +148,8 @@ export default class BitkubClient {
    *
    * @returns A list of symbols in Bitkub market.
    */
-  async getSymbols() {
-    return this.axiosInstance.get<SymbolResponse>(`/market/symbols`);
+  async getSymbols(): Promise<AxiosResponse<SymbolResponse>> {
+    return this._axiosInstance.get(`/market/symbols`);
   }
 
   /**
@@ -105,8 +157,8 @@ export default class BitkubClient {
    *
    * @returns A list of current balances
    */
-  async getBalances() {
-    return this.axiosInstance.post<BalancesResponse>(
+  async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
+    return this._axiosInstance.post(
       `/market/balances`,
       await this.buildPayload()
     );
@@ -119,13 +171,16 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of bid
    */
-  async getBids(symbol: string, limit = 1) {
+  async getBids(
+    symbol: string,
+    limit = 1
+  ): Promise<AxiosResponse<BidResponse>> {
     const params = {
       sym: symbol,
       lmt: limit,
     };
     const queryParams = querystring.stringify(await this.buildPayload(params));
-    return this.axiosInstance.get<BidResponse>(`/market/bids?${queryParams}`);
+    return this._axiosInstance.get(`/market/bids?${queryParams}`);
   }
 
   /**
@@ -135,19 +190,22 @@ export default class BitkubClient {
    * @param limit - Response Limit Size
    * @returns A list of ask
    */
-  async getAsks(symbol: string, limit = 1) {
+  async getAsks(
+    symbol: string,
+    limit = 1
+  ): Promise<AxiosResponse<AskResponse>> {
     const params = {
       sym: symbol,
       lmt: limit,
     };
     const queryParams = querystring.stringify(await this.buildPayload(params));
-    return this.axiosInstance.get<AskResponse>(`/market/asks?${queryParams}`);
+    return this._axiosInstance.get(`/market/asks?${queryParams}`);
   }
 
-  generateSignature(payload: Record<string, any>) {
+  generateSignature(payload: Record<string, any>): string {
     const json = JSON.stringify(payload);
     const hash = crypto
-      .createHmac("sha256", this.apiSecret)
+      .createHmac("sha256", this._apiSecret)
       .update(json)
       .digest("hex");
     return hash;
@@ -167,7 +225,7 @@ export default class BitkubClient {
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
     clientId: string | undefined = undefined
-  ) {
+  ): Promise<AxiosResponse<PlaceBidResponse>> {
     const params: Record<string, any> = {
       sym: symbol,
       amt: amount,
@@ -177,11 +235,11 @@ export default class BitkubClient {
     if (clientId) params["client_id"] = clientId;
 
     const placeBidApiUrl =
-      this.environment === BitkubEnvironment.TEST
+      this._environment === BitkubEnvironment.TEST
         ? "/market/place-bid/test"
         : "/market/v2/place-bid";
 
-    return this.axiosInstance.post<PlaceBidResponse>(
+    return this._axiosInstance.post(
       placeBidApiUrl,
       await this.buildPayload(params)
     );
@@ -201,7 +259,7 @@ export default class BitkubClient {
     rate: number,
     orderType: BitkubOrderType = BitkubOrderType.MARKET,
     clientId: string | undefined = undefined
-  ) {
+  ): Promise<AxiosResponse<PlaceAskResponse>> {
     const params: Record<string, any> = {
       sym: symbol,
       amt: amount,
@@ -211,12 +269,37 @@ export default class BitkubClient {
     if (clientId) params["client_id"] = clientId;
 
     const placeAskApiUrl =
-      this.environment === BitkubEnvironment.TEST
+      this._environment === BitkubEnvironment.TEST
         ? "/market/place-ask/test"
         : "/market/v2/place-ask";
 
-    return this.axiosInstance.post<PlaceAskResponse>(
+    return this._axiosInstance.post(
       placeAskApiUrl,
+      await this.buildPayload(params)
+    );
+  }
+
+  /**
+   * Cancel order
+   * @param orderId : Order Id
+   * @returns Result of cancelling order
+   */
+  async cancelOrder(
+    hash: string,
+    symbol: string | undefined = undefined,
+    orderId: string | undefined = undefined,
+    orderSide: OrderSide | undefined = undefined
+  ): Promise<AxiosResponse<CancelResponse>> {
+    const params = hash
+      ? { hash }
+      : {
+          sym: symbol,
+          id: orderId,
+          orderSide: orderSide,
+        };
+
+    return this._axiosInstance.post(
+      `/market/cancel-order`,
       await this.buildPayload(params)
     );
   }
