@@ -1,4 +1,3 @@
-import nock from "nock";
 import BitkubClient from "./BitkubClient";
 import { TEST_API_URL } from "./__mocks__/apis/bitkub/constants";
 import { createApi as createMarketApi } from "./__mocks__/apis/bitkub/marketApi";
@@ -12,6 +11,7 @@ import {
   BitkubErrorCode,
   BitkubHeaderType,
   BitkubOrderType,
+  OrderSide,
   SymbolResponse,
 } from "./models";
 
@@ -50,11 +50,7 @@ describe("Bitkub client", () => {
       [CONTENT_TYPE_HEADER_NAME]: "application/json",
     };
 
-    nock(TEST_API_URL, {
-      reqheaders,
-    })
-      .get("/servertime")
-      .reply(200, "1529999999");
+    createServerTimeApi(reqheaders);
 
     const currentServerTime = await client.getServerTime();
 
@@ -222,7 +218,7 @@ describe("Bitkub client", () => {
     expect(placeAskResult).toMatchSnapshot();
   });
 
-  it("Cancel an order", async () => {
+  it("Cancel an order with hash", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.baseApiUrl = TEST_API_URL;
 
@@ -231,6 +227,26 @@ describe("Bitkub client", () => {
     const { hash } = buyOrderResponse.data.result;
 
     const response = await client.cancelOrder(hash);
+
+    const cancelOrderResult = response.data.result;
+
+    expect(cancelOrderResult).toMatchSnapshot();
+  });
+
+  it("Cancel an order with order id", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
+
+    const buyOrderResponse = await client.placeBid("THB_BTC", 100, 0);
+
+    const { id } = buyOrderResponse.data.result;
+
+    const response = await client.cancelOrder(
+      null,
+      "THB_BTC",
+      id,
+      OrderSide.BUY
+    );
 
     const cancelOrderResult = response.data.result;
 

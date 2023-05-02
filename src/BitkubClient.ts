@@ -285,7 +285,7 @@ export default class BitkubClient {
    * @returns Result of cancelling order
    */
   async cancelOrder(
-    hash: string,
+    hash: string | null,
     symbol: string | undefined = undefined,
     orderId: string | undefined = undefined,
     orderSide: OrderSide | undefined = undefined
