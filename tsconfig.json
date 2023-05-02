@@ -18,6 +18,9 @@
     "babel.config.js",
     "metro.config.js",
     "jest.config.ts",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "src/__mocks__",
+    "src/__snapshots__",
+    ".env"
   ]
 }

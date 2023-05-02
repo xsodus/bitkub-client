@@ -29,7 +29,7 @@ const client = new BitkubClient (
 );
 ```
 
-3. Now, you can call the [Bitkub API](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) through these functions Please see more details at [bitkub-client document](https://xsodus-bitkub-client.netlify.app).
+3. Now, you can call the [Bitkub API](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) through these functions. Please see more details at [bitkub-client document](https://xsodus-bitkub-client.netlify.app).
 
 4. If you want to call other POST APIs which is not in the list above, you can use `buildPayload()` to build your payload. It automatically generates `sig` and `ts` into your payload. They're required fields for all POST APIs.
 
@@ -41,7 +41,7 @@ const requestPayload = client.buildPayload({amount:100, ...});
 
 ## Pull Requests
 
-I'am welcomed for any incoming pull requests. Don't hesitate to submit it. Thanks!
+Feel free to send the PR if you're interested. Thanks!
 
 ## Test Running
 

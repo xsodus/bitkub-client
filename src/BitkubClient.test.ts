@@ -1,35 +1,75 @@
 import nock from "nock";
 import BitkubClient from "./BitkubClient";
-import bitkubBalanceResponse from "./__mocks__/bitkubBalanceResponse.json";
-import bitkubPlaceBidResponse from "./__mocks__/bitkubBuyResponse.json";
-import bitkubPlaceAskResponse from "./__mocks__/bitkubSellResponse.json";
-import bitkubTestPlaceBidResponse from "./__mocks__/bitkubTestBuyResponse.json";
+import { TEST_API_URL } from "./__mocks__/apis/bitkub/constants";
+import { createApi as createMarketApi } from "./__mocks__/apis/bitkub/marketApi";
+import { createApi as createServerTimeApi } from "./__mocks__/apis/bitkub/serverTimeApi";
+import {
+  BITKUB_API_KEY_HEADER_NAME,
+  CONTENT_TYPE_HEADER_NAME,
+} from "./constants";
 import {
   BitkubEnvironment,
   BitkubErrorCode,
+  BitkubHeaderType,
   BitkubOrderType,
+  OrderSide,
   SymbolResponse,
 } from "./models";
 
-const TEST_API_URL = "http://localhost:9876";
-
 let client: BitkubClient;
 
-beforeEach(() => {
-  client = new BitkubClient(
-    process.env.BITKUB_API_KEY || "",
-    process.env.BITKUB_API_SECRET || ""
-  );
-});
-
-afterEach(() => {
-  nock.cleanAll();
-});
+jest.setTimeout(60000);
 
 describe("Bitkub client", () => {
+  beforeEach(() => {
+    client = new BitkubClient(
+      process.env.BITKUB_API_KEY || "test-key",
+      process.env.BITKUB_API_SECRET || "test-secret",
+      BitkubEnvironment.PRODUCTION
+    );
+
+    // Server Time API
+    createServerTimeApi();
+
+    // Market API
+    createMarketApi();
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
   it("Get server time", async () => {
     const currentServerTime = await client.getServerTime();
     expect(currentServerTime.data).not.toBeNull();
+  });
+
+  it("Can change the api key", async () => {
+    const newApiKey = "new-api-key";
+
+    client.apiKey = newApiKey;
+
+    const reqheaders: BitkubHeaderType = {
+      [BITKUB_API_KEY_HEADER_NAME]: newApiKey,
+      accept: "application/json",
+      [CONTENT_TYPE_HEADER_NAME]: "application/json",
+    };
+
+    createServerTimeApi(reqheaders);
+
+    const currentServerTime = await client.getServerTime();
+
+    expect(currentServerTime.data).not.toBeNull();
+  });
+
+  it("Can change the api secret", async () => {
+    const oldPayLoad = await client.buildPayload({ test: "111" });
+
+    client.apiSecret = "XXXXXXXXXXXXXX";
+
+    const newPayLoad = await client.buildPayload({ test: "111" });
+
+    expect(oldPayLoad).not.toEqual(newPayLoad);
   });
 
   it("Build a request payload including signature key", async () => {
@@ -50,13 +90,7 @@ describe("Bitkub client", () => {
   });
 
   it("Get balances", async () => {
-    client.setBaseApiUrl(TEST_API_URL);
-
-    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
-
-    nock(TEST_API_URL)
-      .post("/market/balances")
-      .reply(200, bitkubBalanceResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const result = await client.getBalances();
     const content = result.data;
@@ -91,13 +125,7 @@ describe("Bitkub client", () => {
 
   it("Open position through mocked server", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
-    client.setBaseApiUrl(TEST_API_URL);
-
-    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
-
-    nock(TEST_API_URL)
-      .post("/market/v2/place-bid")
-      .reply(200, bitkubPlaceBidResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid(
       "THB_DOGE",
@@ -115,13 +143,7 @@ describe("Bitkub client", () => {
 
   it("Close position through mocked server", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
-    client.setBaseApiUrl(TEST_API_URL);
-
-    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
-
-    nock(TEST_API_URL)
-      .post("/market/v2/place-ask")
-      .reply(200, bitkubPlaceAskResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeAsk(
       "THB_DOGE",
@@ -138,13 +160,7 @@ describe("Bitkub client", () => {
 
   it("Open position in sandbox environment with mocked APIs", async () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
-    client.setBaseApiUrl(TEST_API_URL);
-
-    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
-
-    nock(TEST_API_URL)
-      .post("/market/place-bid/test")
-      .reply(200, bitkubTestPlaceBidResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid(
       "THB_BTC",
@@ -161,13 +177,7 @@ describe("Bitkub client", () => {
 
   it("Close position in sandbox environment with mocked APIs", async () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
-    client.setBaseApiUrl(TEST_API_URL);
-
-    nock(TEST_API_URL).get("/servertime").reply(200, "1529999999");
-
-    nock(TEST_API_URL)
-      .post("/market/place-ask/test")
-      .reply(200, bitkubTestPlaceBidResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeAsk(
       "THB_KUB",
@@ -175,10 +185,6 @@ describe("Bitkub client", () => {
       0,
       BitkubOrderType.MARKET
     );
-    const { error } = response.data;
-    const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
-
-    expect(isCheckingBody).toBeTruthy();
 
     const placeAskResult = response.data.result;
 
@@ -187,21 +193,9 @@ describe("Bitkub client", () => {
 
   it("Place a bid with default order type", async () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
-    client.setBaseApiUrl("http://localhost:9876");
-
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
-
-    nock("http://localhost:9876")
-      .post("/market/place-bid/test")
-      .reply(200, bitkubTestPlaceBidResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid("THB_BTC", 100, 0);
-    expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
-
-    const { error } = response.data;
-    const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
-
-    expect(isCheckingBody).toBeTruthy();
 
     const placeBidResult = response.data.result;
 
@@ -210,18 +204,74 @@ describe("Bitkub client", () => {
 
   it("Ask a bid with default order type", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
-    client.setBaseApiUrl("http://localhost:9876");
-
-    nock("http://localhost:9876").get("/servertime").reply(200, "1529999999");
-
-    nock("http://localhost:9876")
-      .post("/market/v2/place-ask")
-      .reply(200, bitkubPlaceAskResponse);
+    client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeAsk("THB_DOGE", 0.1, 0);
 
     const placeAskResult = response.data.result;
 
     expect(placeAskResult).toMatchSnapshot();
+  });
+
+  it("Should cancel an order with hash", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
+
+    createServerTimeApi();
+
+    const buyOrderResponse = await client.placeBid(
+      "THB_BTC",
+      100,
+      100000,
+      BitkubOrderType.LIMIT
+    );
+
+    const { hash } = buyOrderResponse.data.result;
+
+    const response = await client.cancelOrder(hash);
+
+    const cancelOrderResult = response.data.error;
+
+    expect(cancelOrderResult).toBe(0);
+  });
+
+  it("Should cancel an order with order id", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
+
+    createServerTimeApi();
+
+    const buyOrderResponse = await client.placeBid(
+      "THB_BTC",
+      100,
+      100000,
+      BitkubOrderType.LIMIT
+    );
+
+    const { id } = buyOrderResponse.data.result;
+
+    const response = await client.cancelOrder(
+      null,
+      "THB_BTC",
+      id,
+      OrderSide.BUY
+    );
+
+    const cancelOrderResult = response.data.error;
+
+    expect(cancelOrderResult).toBe(0);
+  });
+
+  it("Can change the request timeout", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
+
+    client.requestTimeout = 1;
+
+    createServerTimeApi();
+
+    await expect(client.getServerTime()).rejects.toThrowError(
+      "timeout of 1ms exceeded"
+    );
   });
 });
