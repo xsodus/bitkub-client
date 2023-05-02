@@ -131,7 +131,6 @@ export interface OrderRequest {
 
 export interface CancelResponse {
   error: number;
-  result: Result[];
 }
 
 export enum OrderSide {

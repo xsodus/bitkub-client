@@ -15,66 +15,6 @@ exports[`Bitkub client Ask a bid with default order type 1`] = `
 }
 `;
 
-exports[`Bitkub client Cancel an order 1`] = `
-[
-  {
-    "amount": 0.93333334,
-    "client_id": "client_id",
-    "credit": 35.01,
-    "fee": 35.01,
-    "hash": "fwQ6dnQWQPs4cbatFSJpMCcKTFR",
-    "id": 2,
-    "parent_id": 1,
-    "rate": 15000,
-    "receive": 14000,
-    "side": "SELL",
-    "super_id": 1,
-    "ts": 1533834844,
-    "type": "limit",
-  },
-]
-`;
-
-exports[`Bitkub client Cancel an order with hash 1`] = `
-[
-  {
-    "amount": 0.93333334,
-    "client_id": "client_id",
-    "credit": 35.01,
-    "fee": 35.01,
-    "hash": "fwQ6dnQWQPs4cbatFSJpMCcKTFR",
-    "id": 2,
-    "parent_id": 1,
-    "rate": 15000,
-    "receive": 14000,
-    "side": "SELL",
-    "super_id": 1,
-    "ts": 1533834844,
-    "type": "limit",
-  },
-]
-`;
-
-exports[`Bitkub client Cancel an order with order id 1`] = `
-[
-  {
-    "amount": 0.93333334,
-    "client_id": "client_id",
-    "credit": 35.01,
-    "fee": 35.01,
-    "hash": "fwQ6dnQWQPs4cbatFSJpMCcKTFR",
-    "id": 2,
-    "parent_id": 1,
-    "rate": 15000,
-    "receive": 14000,
-    "side": "SELL",
-    "super_id": 1,
-    "ts": 1533834844,
-    "type": "limit",
-  },
-]
-`;
-
 exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`] = `
 {
   "amt": 100,

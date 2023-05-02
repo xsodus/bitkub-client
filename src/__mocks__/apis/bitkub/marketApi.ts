@@ -25,6 +25,6 @@ export const createApi = () => {
     .post("/market/place-ask/test")
     .reply(200, bitkubTestPlaceBidResponse);
   nock(TEST_API_URL)
-    .post("/market/cancel-order")
+    .post("/market/v2/cancel-order")
     .reply(200, bitkubCancelOrderResponse);
 };

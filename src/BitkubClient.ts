@@ -105,6 +105,7 @@ export default class BitkubClient {
 
   /**
    * Change the api secret
+   * @param secret
    */
   set apiSecret(secret: string) {
     this._apiSecret = secret;
@@ -295,11 +296,11 @@ export default class BitkubClient {
       : {
           sym: symbol,
           id: orderId,
-          orderSide: orderSide,
+          sd: orderSide,
         };
 
     return this._axiosInstance.post(
-      `/market/cancel-order`,
+      `/market/v2/cancel-order`,
       await this.buildPayload(params)
     );
   }

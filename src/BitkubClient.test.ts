@@ -1,3 +1,4 @@
+import nock from "nock";
 import BitkubClient from "./BitkubClient";
 import { TEST_API_URL } from "./__mocks__/apis/bitkub/constants";
 import { createApi as createMarketApi } from "./__mocks__/apis/bitkub/marketApi";
@@ -32,6 +33,10 @@ describe("Bitkub client", () => {
 
     // Market API
     createMarketApi();
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
   });
 
   it("Get server time", async () => {
@@ -180,10 +185,6 @@ describe("Bitkub client", () => {
       0,
       BitkubOrderType.MARKET
     );
-    const { error } = response.data;
-    const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
-
-    expect(isCheckingBody).toBeTruthy();
 
     const placeAskResult = response.data.result;
 
@@ -195,12 +196,6 @@ describe("Bitkub client", () => {
     client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid("THB_BTC", 100, 0);
-    expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
-
-    const { error } = response.data;
-    const isCheckingBody = error === BitkubErrorCode.NO_ERROR;
-
-    expect(isCheckingBody).toBeTruthy();
 
     const placeBidResult = response.data.result;
 
@@ -218,26 +213,40 @@ describe("Bitkub client", () => {
     expect(placeAskResult).toMatchSnapshot();
   });
 
-  it("Cancel an order with hash", async () => {
+  it("Should cancel an order with hash", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.baseApiUrl = TEST_API_URL;
 
-    const buyOrderResponse = await client.placeBid("THB_BTC", 100, 0);
+    createServerTimeApi();
+
+    const buyOrderResponse = await client.placeBid(
+      "THB_BTC",
+      100,
+      100000,
+      BitkubOrderType.LIMIT
+    );
 
     const { hash } = buyOrderResponse.data.result;
 
     const response = await client.cancelOrder(hash);
 
-    const cancelOrderResult = response.data.result;
+    const cancelOrderResult = response.data.error;
 
-    expect(cancelOrderResult).toMatchSnapshot();
+    expect(cancelOrderResult).toBe(0);
   });
 
-  it("Cancel an order with order id", async () => {
+  it("Should cancel an order with order id", async () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.baseApiUrl = TEST_API_URL;
 
-    const buyOrderResponse = await client.placeBid("THB_BTC", 100, 0);
+    createServerTimeApi();
+
+    const buyOrderResponse = await client.placeBid(
+      "THB_BTC",
+      100,
+      100000,
+      BitkubOrderType.LIMIT
+    );
 
     const { id } = buyOrderResponse.data.result;
 
@@ -248,8 +257,21 @@ describe("Bitkub client", () => {
       OrderSide.BUY
     );
 
-    const cancelOrderResult = response.data.result;
+    const cancelOrderResult = response.data.error;
 
-    expect(cancelOrderResult).toMatchSnapshot();
+    expect(cancelOrderResult).toBe(0);
+  });
+
+  it("Can change the request timeout", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
+
+    client.requestTimeout = 1;
+
+    createServerTimeApi();
+
+    await expect(client.getServerTime()).rejects.toThrowError(
+      "timeout of 1ms exceeded"
+    );
   });
 });
