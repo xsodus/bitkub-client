@@ -1,6 +1,6 @@
 {
   "name": "bitkub-client",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "A client wrapper class for calling the Bitkub APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "test": "jest test --silent --coverage",
     "build": "tsc",
     "build:docs": "mkdir public && typedoc src/* && mv docs/* public",
-    "publish": "npm publish --access public"
+    "publish": "tsc && npm publish --access public"
   },
   "keywords": [
     "bitkub",

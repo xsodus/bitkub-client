@@ -238,7 +238,7 @@ export default class BitkubClient {
     const placeBidApiUrl =
       this._environment === BitkubEnvironment.TEST
         ? "/market/place-bid/test"
-        : "/market/v2/place-bid";
+        : "/v3/market/place-bid";
 
     return this._axiosInstance.post(
       placeBidApiUrl,
@@ -272,7 +272,7 @@ export default class BitkubClient {
     const placeAskApiUrl =
       this._environment === BitkubEnvironment.TEST
         ? "/market/place-ask/test"
-        : "/market/v2/place-ask";
+        : "/v3/market/place-ask";
 
     return this._axiosInstance.post(
       placeAskApiUrl,

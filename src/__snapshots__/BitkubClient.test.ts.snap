@@ -417,14 +417,15 @@ exports[`Bitkub client Open position in sandbox environment with mocked APIs 1`]
 exports[`Bitkub client Open position through mocked server 1`] = `
 {
   "amt": 1000,
-  "cre": 0,
-  "fee": 0,
-  "hash": "fwQ6dnn922n912C1TJdJTxujube",
-  "id": 138257377,
-  "rat": 0,
-  "rec": 0,
-  "ts": "1680486333",
-  "typ": "market",
+  "ci": "input_client_id",
+  "cre": 2.5,
+  "fee": 2.5,
+  "hash": "fwQ6dnQWQPs4cbatF5Am2xCDP1J",
+  "id": "1",
+  "rat": 15000,
+  "rec": 0.06666666,
+  "ts": 1533834547,
+  "typ": "limit",
 }
 `;
 

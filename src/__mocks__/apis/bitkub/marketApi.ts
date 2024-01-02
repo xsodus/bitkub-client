@@ -9,15 +9,12 @@ import bitkubTestPlaceBidResponse from "./reponses/bitkubTestBuyResponse.json";
 
 export const createApi = () => {
   nock(TEST_API_URL)
-    .post("/market/v2/place-ask")
+    .post("/v3/market/place-ask")
     .reply(200, bitkubPlaceAskResponse);
   nock(TEST_API_URL).post("/market/balances").reply(200, bitkubBalanceResponse);
   nock(TEST_API_URL)
-    .post("/market/v2/place-bid")
+    .post("/v3/market/place-bid")
     .reply(200, bitkubPlaceBidResponse);
-  nock(TEST_API_URL)
-    .post("/market/v2/place-ask")
-    .reply(200, bitkubPlaceAskResponse);
   nock(TEST_API_URL)
     .post("/market/place-bid/test")
     .reply(200, bitkubTestPlaceBidResponse);

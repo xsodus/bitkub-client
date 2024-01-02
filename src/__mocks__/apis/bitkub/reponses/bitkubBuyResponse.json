@@ -1,14 +1,15 @@
 {
   "error": 0,
   "result": {
-    "id": 138257377,
-    "hash": "fwQ6dnn922n912C1TJdJTxujube",
-    "typ": "market",
+    "id": "1", 
+    "hash": "fwQ6dnQWQPs4cbatF5Am2xCDP1J", 
+    "typ": "limit",
     "amt": 1000,
-    "rat": 0,
-    "fee": 0,
-    "cre": 0,
-    "rec": 0,
-    "ts": "1680486333"
+    "rat": 15000, 
+    "fee": 2.5,
+    "cre": 2.5, 
+    "rec": 0.06666666, 
+    "ts": 1533834547,
+    "ci": "input_client_id"
   }
 }
