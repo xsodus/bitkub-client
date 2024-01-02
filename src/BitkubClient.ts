@@ -160,7 +160,7 @@ export default class BitkubClient {
    */
   async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
     return this._axiosInstance.post(
-      `/market/balances`,
+      `/v3/market/balances`,
       await this.buildPayload()
     );
   }
@@ -300,7 +300,7 @@ export default class BitkubClient {
         };
 
     return this._axiosInstance.post(
-      `/market/v2/cancel-order`,
+      `/v3/market/cancel-order`,
       await this.buildPayload(params)
     );
   }

@@ -11,7 +11,7 @@ export const createApi = () => {
   nock(TEST_API_URL)
     .post("/v3/market/place-ask")
     .reply(200, bitkubPlaceAskResponse);
-  nock(TEST_API_URL).post("/market/balances").reply(200, bitkubBalanceResponse);
+  nock(TEST_API_URL).post("/v3/market/balances").reply(200, bitkubBalanceResponse);
   nock(TEST_API_URL)
     .post("/v3/market/place-bid")
     .reply(200, bitkubPlaceBidResponse);
@@ -22,6 +22,6 @@ export const createApi = () => {
     .post("/market/place-ask/test")
     .reply(200, bitkubTestPlaceBidResponse);
   nock(TEST_API_URL)
-    .post("/market/v2/cancel-order")
+    .post("/v3/market/cancel-order")
     .reply(200, bitkubCancelOrderResponse);
 };
