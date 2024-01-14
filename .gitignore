@@ -9,3 +9,4 @@ docs
 public
 .yarn
 .vscode
+.DS_Store

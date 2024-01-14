@@ -129,7 +129,7 @@ export default class BitkubClient {
    *
    * @returns {string} Bitkub server time
    */
-  async getServerTime(): Promise<AxiosResponse<string>> {
+  async getServerTime(): Promise<AxiosResponse<number>> {
     return this._axiosInstance.get("/v3/servertime");
   }
 
@@ -141,7 +141,7 @@ export default class BitkubClient {
    * @returns A request payload including ts and sig field which are required for any POST APIs.
    */
   async buildRequestHeaders(method:'GET'|'POST', apiPath:string,payload?:Record<string,string|number|undefined>): Promise<BitkubHeaderType> {
-    const timestamp = Number((await this.getServerTime()).data)
+    const timestamp = (await this.getServerTime()).data
 
     // Example for Post Method
     // 1699376552354POST/api/v3/market/place-bid{"sym":"thb_btc","amt": 1000,"rat": 10,"typ": "limit"}
@@ -172,6 +172,7 @@ export default class BitkubClient {
   async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
     return this._axiosInstance.post(
       `/v3/market/balances`,
+      {},
       {headers:await this.buildRequestHeaders('GET',`/v3/market/balances`)}
     );
   }

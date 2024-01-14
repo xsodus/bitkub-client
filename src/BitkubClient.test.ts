@@ -4,15 +4,8 @@ import { TEST_API_URL } from "./__mocks__/apis/bitkub/constants";
 import { createApi as createMarketApi } from "./__mocks__/apis/bitkub/marketApi";
 import { createApi as createServerTimeApi } from "./__mocks__/apis/bitkub/serverTimeApi";
 import {
-  BITKUB_API_KEY_HEADER_NAME,
-  BITKUB_SIGNATURE_HEADER_NAME,
-  BITKUB_TIMESTAMP_HEADER_NAME,
-  CONTENT_TYPE_HEADER_NAME,
-} from "./constants";
-import {
   BitkubEnvironment,
   BitkubErrorCode,
-  BitkubHeaderType,
   BitkubOrderType,
   OrderSide,
   SymbolResponse,
@@ -64,11 +57,11 @@ describe("Bitkub client", () => {
 
   it("Can change the api secret", async () => {
     client.baseApiUrl = TEST_API_URL;
-    const oldRequestHeaders = await client.buildRequestHeaders('POST','/v3/hello', { test: "111" });
+    const oldRequestHeaders = await client.buildRequestHeaders('POST','/v3/market/place-bid', {"sym":"BTC_THB","amt": 1000,"rat": 10,"typ": "limit"});
 
     client.apiSecret = "XXXXXXXXXXXXXX";
 
-    const newRequestHeaders = await client.buildRequestHeaders('POST','/v3/hello',{ test: "111" });
+    const newRequestHeaders = await client.buildRequestHeaders('POST','/v3/market/place-bid',{ test: "111" });
 
     expect(oldRequestHeaders).not.toEqual(newRequestHeaders);
   });
@@ -98,6 +91,7 @@ describe("Bitkub client", () => {
   });
 
   it("Get bids", async () => {
+    // TODO : We need to update symbol after Bitkub fully migrated to V3
     const response = await client.getBids("THB_BTC");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
@@ -111,6 +105,7 @@ describe("Bitkub client", () => {
   });
 
   it("Get asks", async () => {
+    // TODO : We need to update symbol after Bitkub fully migrated to V3
     const response = await client.getAsks("THB_BTC");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
@@ -128,7 +123,7 @@ describe("Bitkub client", () => {
     client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid(
-      "THB_DOGE",
+      "DOGE_THB",
       100,
       0,
       BitkubOrderType.MARKET,
@@ -146,7 +141,7 @@ describe("Bitkub client", () => {
     client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeAsk(
-      "THB_DOGE",
+      "DOGE_THB",
       0.1,
       0,
       BitkubOrderType.MARKET,
@@ -154,7 +149,6 @@ describe("Bitkub client", () => {
     );
 
     const placeAskResult = response.data.result;
-
     expect(placeAskResult).toMatchSnapshot();
   });
 
@@ -163,7 +157,7 @@ describe("Bitkub client", () => {
     client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeBid(
-      "THB_BTC",
+      "BTC_THB",
       100,
       0,
       BitkubOrderType.MARKET
@@ -180,8 +174,8 @@ describe("Bitkub client", () => {
     client.baseApiUrl = TEST_API_URL;
 
     const response = await client.placeAsk(
-      "THB_KUB",
-      0.1,
+      "DOGE_THB",
+      100,
       0,
       BitkubOrderType.MARKET
     );
@@ -195,7 +189,7 @@ describe("Bitkub client", () => {
     client = new BitkubClient("", "", BitkubEnvironment.TEST);
     client.baseApiUrl = TEST_API_URL;
 
-    const response = await client.placeBid("THB_BTC", 100, 0);
+    const response = await client.placeBid("BTC_THB", 100, 0);
 
     const placeBidResult = response.data.result;
 
@@ -206,7 +200,7 @@ describe("Bitkub client", () => {
     client.setEnvironment(BitkubEnvironment.PRODUCTION);
     client.baseApiUrl = TEST_API_URL;
 
-    const response = await client.placeAsk("THB_DOGE", 0.1, 0);
+    const response = await client.placeAsk("DOGE_THB", 0.1, 0);
 
     const placeAskResult = response.data.result;
 
@@ -220,7 +214,7 @@ describe("Bitkub client", () => {
     createServerTimeApi();
 
     const buyOrderResponse = await client.placeBid(
-      "THB_BTC",
+      "BTC_THB",
       100,
       100000,
       BitkubOrderType.LIMIT
@@ -242,7 +236,7 @@ describe("Bitkub client", () => {
     createServerTimeApi();
 
     const buyOrderResponse = await client.placeBid(
-      "THB_BTC",
+      "BTC_THB",
       100,
       100000,
       BitkubOrderType.LIMIT
@@ -252,7 +246,7 @@ describe("Bitkub client", () => {
 
     const response = await client.cancelOrder(
       null,
-      "THB_BTC",
+      "BTC_THB",
       id,
       OrderSide.BUY
     );
