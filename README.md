@@ -35,7 +35,7 @@ const client = new BitkubClient (
 
 ```
 const uri = `/v3/market/cancel-order`
-const requestPayload = client.buildRequestHeaders('POST',uri,payload)
+const requestHeaders = client.buildRequestHeaders('POST',uri,payload)
 ```
 
 Notes : If you're using client version 1.3 above, it will call Bitkub API version 3.  You must generate a new API key on the Bitkub website.
