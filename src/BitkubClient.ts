@@ -3,6 +3,8 @@ import crypto from "crypto";
 import querystring from "querystring";
 import {
   BITKUB_API_KEY_HEADER_NAME,
+  BITKUB_SIGNATURE_HEADER_NAME,
+  BITKUB_TIMESTAMP_HEADER_NAME,
   CONTENT_TYPE_HEADER_NAME,
   SECURE_API_URL,
 } from "./constants";
@@ -19,6 +21,7 @@ import {
   PlaceBidResponse,
   SymbolResponse,
 } from "./models";
+import isEmpty from 'lodash/isEmpty'
 
 export default class BitkubClient {
   private _apiSecret: string;
@@ -111,6 +114,7 @@ export default class BitkubClient {
     this._apiSecret = secret;
   }
 
+
   /**
    * Change environment to call API
    * It will affect to call place-bid and place-ask api.
@@ -126,22 +130,29 @@ export default class BitkubClient {
    * @returns {string} Bitkub server time
    */
   async getServerTime(): Promise<AxiosResponse<string>> {
-    return this._axiosInstance.get("/servertime");
+    return this._axiosInstance.get("/v3/servertime");
   }
 
   /**
-   * Build a request payload for Bitkub APIs.
+   * Build request header based on Bitkub signature algorithm
+   * Ref: https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md#payload-post
    *
    * @param {object} request payload for each API.
    * @returns A request payload including ts and sig field which are required for any POST APIs.
    */
-  async buildPayload(params = {}): Promise<Record<string, any>> {
-    let payload: Record<string, any> = {
-      ...params,
-      ts: (await this.getServerTime()).data,
-    };
-    payload["sig"] = this.generateSignature(payload);
-    return payload;
+  async buildRequestHeaders(method:'GET'|'POST', apiPath:string,payload?:Record<string,string|number|undefined>): Promise<BitkubHeaderType> {
+    const timestamp = Number((await this.getServerTime()).data)
+
+    // Example for Post Method
+    // 1699376552354POST/api/v3/market/place-bid{"sym":"thb_btc","amt": 1000,"rat": 10,"typ": "limit"}
+    const token = `${timestamp}${method}/api${apiPath}${isEmpty(payload) ? '' : JSON.stringify(payload)}`
+    const signature = this.generateSignature(token);
+
+    return {
+      ...this._requestHeaders,
+      [BITKUB_SIGNATURE_HEADER_NAME]: signature,
+      [BITKUB_TIMESTAMP_HEADER_NAME]: timestamp
+    } as BitkubHeaderType;
   }
 
   /**
@@ -161,7 +172,7 @@ export default class BitkubClient {
   async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
     return this._axiosInstance.post(
       `/v3/market/balances`,
-      await this.buildPayload()
+      {headers:await this.buildRequestHeaders('GET',`/v3/market/balances`)}
     );
   }
 
@@ -180,8 +191,9 @@ export default class BitkubClient {
       sym: symbol,
       lmt: limit,
     };
-    const queryParams = querystring.stringify(await this.buildPayload(params));
-    return this._axiosInstance.get(`/market/bids?${queryParams}`);
+    const queryParams = querystring.stringify(params);
+    const uri = `/market/bids?${queryParams}`
+    return this._axiosInstance.get(uri, {headers: await this.buildRequestHeaders('GET',uri)});
   }
 
   /**
@@ -199,15 +211,15 @@ export default class BitkubClient {
       sym: symbol,
       lmt: limit,
     };
-    const queryParams = querystring.stringify(await this.buildPayload(params));
-    return this._axiosInstance.get(`/market/asks?${queryParams}`);
+    const queryParams = querystring.stringify(params);
+    const uri = `/market/asks?${queryParams}`;
+    return this._axiosInstance.get(uri,{headers:await this.buildRequestHeaders('GET',uri)});
   }
 
-  generateSignature(payload: Record<string, any>): string {
-    const json = JSON.stringify(payload);
+  generateSignature(token: string): string {
     const hash = crypto
       .createHmac("sha256", this._apiSecret)
-      .update(json)
+      .update(token)
       .digest("hex");
     return hash;
   }
@@ -237,12 +249,13 @@ export default class BitkubClient {
 
     const placeBidApiUrl =
       this._environment === BitkubEnvironment.TEST
-        ? "/market/place-bid/test"
+        ? "/v3/market/place-bid/test"
         : "/v3/market/place-bid";
 
     return this._axiosInstance.post(
       placeBidApiUrl,
-      await this.buildPayload(params)
+      params,
+      {headers:await this.buildRequestHeaders('POST',placeBidApiUrl,params)}
     );
   }
 
@@ -271,12 +284,13 @@ export default class BitkubClient {
 
     const placeAskApiUrl =
       this._environment === BitkubEnvironment.TEST
-        ? "/market/place-ask/test"
+        ? "/v3/market/place-ask/test"
         : "/v3/market/place-ask";
 
     return this._axiosInstance.post(
       placeAskApiUrl,
-      await this.buildPayload(params)
+      params,
+      {headers:await this.buildRequestHeaders('POST',placeAskApiUrl,params)}
     );
   }
 
@@ -299,9 +313,11 @@ export default class BitkubClient {
           sd: orderSide,
         };
 
+    const uri = `/v3/market/cancel-order`;
     return this._axiosInstance.post(
-      `/v3/market/cancel-order`,
-      await this.buildPayload(params)
+      uri,
+      params,
+      {headers: await this.buildRequestHeaders('POST',uri,params)}
     );
   }
 }

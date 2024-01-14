@@ -6,20 +6,23 @@ import bitkubPlaceBidResponse from "./reponses/bitkubBuyResponse.json";
 import bitkubCancelOrderResponse from "./reponses/bitkubCancelOrderResponse.json";
 import bitkubPlaceAskResponse from "./reponses/bitkubSellResponse.json";
 import bitkubTestPlaceBidResponse from "./reponses/bitkubTestBuyResponse.json";
+import { BITKUB_API_KEY_HEADER_NAME, BITKUB_SIGNATURE_HEADER_NAME } from "../../../constants";
 
 export const createApi = () => {
   nock(TEST_API_URL)
     .post("/v3/market/place-ask")
     .reply(200, bitkubPlaceAskResponse);
-  nock(TEST_API_URL).post("/v3/market/balances").reply(200, bitkubBalanceResponse);
+  nock(TEST_API_URL)
+    .post("/v3/market/balances")
+    .reply(200, bitkubBalanceResponse);
   nock(TEST_API_URL)
     .post("/v3/market/place-bid")
     .reply(200, bitkubPlaceBidResponse);
   nock(TEST_API_URL)
-    .post("/market/place-bid/test")
+    .post("/v3/market/place-bid/test")
     .reply(200, bitkubTestPlaceBidResponse);
   nock(TEST_API_URL)
-    .post("/market/place-ask/test")
+    .post("/v3/market/place-ask/test")
     .reply(200, bitkubTestPlaceBidResponse);
   nock(TEST_API_URL)
     .post("/v3/market/cancel-order")

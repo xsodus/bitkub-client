@@ -31,12 +31,14 @@ const client = new BitkubClient (
 
 3. Now, you can call the [Bitkub API](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) through these functions. Please see more details at [bitkub-client document](https://xsodus-bitkub-client.netlify.app).
 
-4. If you want to call other POST APIs which is not in the list above, you can use `buildPayload()` to build your payload. It automatically generates `sig` and `ts` into your payload. They're required fields for all POST APIs.
+4. If you want to call other POST APIs which is not in the list above, you can use `buildRequestHeaders()` to build your HTTP headers. It includes `X-BTK-TIMESTAMP` and `X-BTK-SIGN` to the headers. They're required fields for all secured APIs for version 3.
 
 ```
-const requestPayload = client.buildPayload({amount:100, ...});
+const uri = `/v3/market/cancel-order`
+const requestPayload = client.buildRequestHeaders('POST',uri,payload)
 ```
 
+Notes : If you're using client version 1.3 above, it will call Bitkub API version 3.  You must generate a new API key on the Bitkub website.
 # Contributions
 
 ## Pull Requests

@@ -1,5 +1,7 @@
 import {
   BITKUB_API_KEY_HEADER_NAME,
+  BITKUB_SIGNATURE_HEADER_NAME,
+  BITKUB_TIMESTAMP_HEADER_NAME,
   CONTENT_TYPE_HEADER_NAME,
 } from "./constants";
 
@@ -61,6 +63,8 @@ export type BitkubHeaderType = {
   [BITKUB_API_KEY_HEADER_NAME]: string;
   accept: string;
   [CONTENT_TYPE_HEADER_NAME]: string;
+  [BITKUB_SIGNATURE_HEADER_NAME]? : string;
+  [BITKUB_TIMESTAMP_HEADER_NAME]? : number;
 };
 
 export type BitkubSymbolInfo = {

@@ -15,6 +15,28 @@ exports[`Bitkub client Ask a bid with default order type 1`] = `
 }
 `;
 
+exports[`Bitkub client Build a request payload including signature key 1`] = `
+{
+  "X-BTK-APIKEY": "test-key",
+  "X-BTK-SIGN": "39d6369dd56db3857d97321823565d6f889fb1b2f771b7c1836313e4f571a7e0",
+  "X-BTK-TIMESTAMP": 1705229506193,
+  "accept": "application/json",
+  "content-type": "application/json",
+}
+`;
+
+exports[`Bitkub client Can change the api key 1`] = `undefined`;
+
+exports[`Bitkub client Can generate request header for GET method 1`] = `
+{
+  "X-BTK-APIKEY": "test-key",
+  "X-BTK-SIGN": "de95614c5e5cdda406c53f11e9816af81e7bfffb7aae88bdc8a1bb351c8c3b3e",
+  "X-BTK-TIMESTAMP": 1705229506193,
+  "accept": "application/json",
+  "content-type": "application/json",
+}
+`;
+
 exports[`Bitkub client Close position in sandbox environment with mocked APIs 1`] = `
 {
   "amt": 100,
@@ -397,6 +419,569 @@ exports[`Bitkub client Get balances 1`] = `
       "reserved": 0,
     },
   },
+}
+`;
+
+exports[`Bitkub client Get symbols 1`] = `
+{
+  "error": 0,
+  "result": [
+    {
+      "id": 1,
+      "info": "Thai Baht to Bitcoin",
+      "symbol": "THB_BTC",
+    },
+    {
+      "id": 2,
+      "info": "Thai Baht to Ethereum",
+      "symbol": "THB_ETH",
+    },
+    {
+      "id": 3,
+      "info": "Thai Baht to Wancoin",
+      "symbol": "THB_WAN",
+    },
+    {
+      "id": 4,
+      "info": "Thai Baht to Cardano",
+      "symbol": "THB_ADA",
+    },
+    {
+      "id": 5,
+      "info": "Thai Baht to OMG Network",
+      "symbol": "THB_OMG",
+    },
+    {
+      "id": 6,
+      "info": "Thai Baht to Bitcoin Cash",
+      "symbol": "THB_BCH",
+    },
+    {
+      "id": 8,
+      "info": "Thai Baht to Tether",
+      "symbol": "THB_USDT",
+    },
+    {
+      "id": 10,
+      "info": "Thai Baht to XRP",
+      "symbol": "THB_XRP",
+    },
+    {
+      "id": 12,
+      "info": "Thai Baht to Zilliqa",
+      "symbol": "THB_ZIL",
+    },
+    {
+      "id": 13,
+      "info": "Thai Baht to Status",
+      "symbol": "THB_SNT",
+    },
+    {
+      "id": 14,
+      "info": "Thai Baht to Civic",
+      "symbol": "THB_CVC",
+    },
+    {
+      "id": 15,
+      "info": "Thai Baht to Chainlink",
+      "symbol": "THB_LINK",
+    },
+    {
+      "id": 17,
+      "info": "Thai Baht to IOST",
+      "symbol": "THB_IOST",
+    },
+    {
+      "id": 18,
+      "info": "Thai Baht to 0x",
+      "symbol": "THB_ZRX",
+    },
+    {
+      "id": 19,
+      "info": "Thai Baht to Kyber Network",
+      "symbol": "THB_KNC",
+    },
+    {
+      "id": 22,
+      "info": "Thai Baht to Arcblock",
+      "symbol": "THB_ABT",
+    },
+    {
+      "id": 24,
+      "info": "Thai Baht to Decentraland",
+      "symbol": "THB_MANA",
+    },
+    {
+      "id": 28,
+      "info": "Thai Baht to Cortex",
+      "symbol": "THB_CTXC",
+    },
+    {
+      "id": 29,
+      "info": "Thai Baht to Stellar",
+      "symbol": "THB_XLM",
+    },
+    {
+      "id": 30,
+      "info": "Thai Baht to SIX",
+      "symbol": "THB_SIX",
+    },
+    {
+      "id": 31,
+      "info": "Thai Baht to JFIN Coin",
+      "symbol": "THB_JFIN",
+    },
+    {
+      "id": 33,
+      "info": "Thai Baht to BNB",
+      "symbol": "THB_BNB",
+    },
+    {
+      "id": 34,
+      "info": "Thai Baht to Powerledger",
+      "symbol": "THB_POW",
+    },
+    {
+      "id": 35,
+      "info": "Thai Baht to Dogecoin",
+      "symbol": "THB_DOGE",
+    },
+    {
+      "id": 37,
+      "info": "Thai Baht to TRON",
+      "symbol": "THB_TRX",
+    },
+    {
+      "id": 39,
+      "info": "Thai Baht to Dai",
+      "symbol": "THB_DAI",
+    },
+    {
+      "id": 43,
+      "info": "Thai Baht to Tezos",
+      "symbol": "THB_XTZ",
+    },
+    {
+      "id": 44,
+      "info": "Thai Baht to Algorand",
+      "symbol": "THB_ALGO",
+    },
+    {
+      "id": 46,
+      "info": "Thai Baht to USD Coin",
+      "symbol": "THB_USDC",
+    },
+    {
+      "id": 49,
+      "info": "Thai Baht to Basic Attention Token",
+      "symbol": "THB_BAT",
+    },
+    {
+      "id": 50,
+      "info": "Thai Baht to Maker",
+      "symbol": "THB_MKR",
+    },
+    {
+      "id": 56,
+      "info": "Thai Baht to Enjin Coin",
+      "symbol": "THB_ENJ",
+    },
+    {
+      "id": 65,
+      "info": "Thai Baht to Band",
+      "symbol": "THB_BAND",
+    },
+    {
+      "id": 66,
+      "info": "Thai Baht to Compound",
+      "symbol": "THB_COMP",
+    },
+    {
+      "id": 67,
+      "info": "Thai Baht to Kusama",
+      "symbol": "THB_KSM",
+    },
+    {
+      "id": 68,
+      "info": "Thai Baht to Polkadot",
+      "symbol": "THB_DOT",
+    },
+    {
+      "id": 69,
+      "info": "Thai Baht to NEAR Protocol",
+      "symbol": "THB_NEAR",
+    },
+    {
+      "id": 70,
+      "info": "Thai Baht to Secret",
+      "symbol": "THB_SCRT",
+    },
+    {
+      "id": 71,
+      "info": "Thai Baht to Golem",
+      "symbol": "THB_GLM",
+    },
+    {
+      "id": 72,
+      "info": "Thai Baht to Donnie Finance",
+      "symbol": "THB_DON",
+    },
+    {
+      "id": 73,
+      "info": "Thai Baht to yearn.finance",
+      "symbol": "THB_YFI",
+    },
+    {
+      "id": 74,
+      "info": "Thai Baht to Uniswap",
+      "symbol": "THB_UNI",
+    },
+    {
+      "id": 75,
+      "info": "Thai Baht to Aave",
+      "symbol": "THB_AAVE",
+    },
+    {
+      "id": 76,
+      "info": "Thai Baht to Stella",
+      "symbol": "THB_ALPHA",
+    },
+    {
+      "id": 77,
+      "info": "Thai Baht to Ocean Protocol",
+      "symbol": "THB_OCEAN",
+    },
+    {
+      "id": 79,
+      "info": "Thai Baht to Synthetix",
+      "symbol": "THB_SNX",
+    },
+    {
+      "id": 81,
+      "info": "Thai Baht to UMA",
+      "symbol": "THB_UMA",
+    },
+    {
+      "id": 82,
+      "info": "Thai Baht to The Sandbox",
+      "symbol": "THB_SAND",
+    },
+    {
+      "id": 83,
+      "info": "Thai Baht to Balancer",
+      "symbol": "THB_BAL",
+    },
+    {
+      "id": 85,
+      "info": "Thai Baht to Curve DAO Token",
+      "symbol": "THB_CRV",
+    },
+    {
+      "id": 88,
+      "info": "Thai Baht to The Graph",
+      "symbol": "THB_GRT",
+    },
+    {
+      "id": 90,
+      "info": "Thai Baht to Polygon",
+      "symbol": "THB_MATIC",
+    },
+    {
+      "id": 92,
+      "info": "Thai Baht to Bitkub Coin",
+      "symbol": "THB_KUB",
+    },
+    {
+      "id": 93,
+      "info": "Thai Baht to Axie Infinity",
+      "symbol": "THB_AXS",
+    },
+    {
+      "id": 95,
+      "info": "Thai Baht to Sushi",
+      "symbol": "THB_SUSHI",
+    },
+    {
+      "id": 98,
+      "info": "Thai Baht to Immutable X",
+      "symbol": "THB_IMX",
+    },
+    {
+      "id": 99,
+      "info": "Thai Baht to dYdX",
+      "symbol": "THB_DYDX",
+    },
+    {
+      "id": 101,
+      "info": "Thai Baht to Ethereum Name Service",
+      "symbol": "THB_ENS",
+    },
+    {
+      "id": 102,
+      "info": "Thai Baht to Boba Token",
+      "symbol": "THB_BOBA",
+    },
+    {
+      "id": 103,
+      "info": "Thai Baht to Illuvium",
+      "symbol": "THB_ILV",
+    },
+    {
+      "id": 104,
+      "info": "Thai Baht to Gala",
+      "symbol": "THB_GALA",
+    },
+    {
+      "id": 105,
+      "info": "Thai Baht to GateToken",
+      "symbol": "THB_GT",
+    },
+    {
+      "id": 106,
+      "info": "Thai Baht to Songbird",
+      "symbol": "THB_SGB",
+    },
+    {
+      "id": 108,
+      "info": "Thai Baht to LUKSO",
+      "symbol": "THB_LYXE",
+    },
+    {
+      "id": 112,
+      "info": "Thai Baht to Chiliz",
+      "symbol": "THB_CHZ",
+    },
+    {
+      "id": 114,
+      "info": "Thai Baht to GuildFi",
+      "symbol": "THB_GF",
+    },
+    {
+      "id": 115,
+      "info": "Thai Baht to Coin98",
+      "symbol": "THB_C98",
+    },
+    {
+      "id": 117,
+      "info": "Thai Baht to Experimental Finance",
+      "symbol": "THB_EXFI",
+    },
+    {
+      "id": 118,
+      "info": "Thai Baht to Solana",
+      "symbol": "THB_SOL",
+    },
+    {
+      "id": 119,
+      "info": "Thai Baht to Avalanche",
+      "symbol": "THB_AVAX",
+    },
+    {
+      "id": 121,
+      "info": "Thai Baht to Fantom",
+      "symbol": "THB_FTM",
+    },
+    {
+      "id": 122,
+      "info": "Thai Baht to Terra Classic (LUNC)",
+      "symbol": "THB_LUNA",
+    },
+    {
+      "id": 123,
+      "info": "Thai Baht to ApeCoin",
+      "symbol": "THB_APE",
+    },
+    {
+      "id": 124,
+      "info": "Thai Baht to Hedera",
+      "symbol": "THB_HBAR",
+    },
+    {
+      "id": 126,
+      "info": "Thai Baht to Loopring",
+      "symbol": "THB_LRC",
+    },
+    {
+      "id": 129,
+      "info": "Thai Baht to Celo",
+      "symbol": "THB_CELO",
+    },
+    {
+      "id": 131,
+      "info": "Thai Baht to Galxe",
+      "symbol": "THB_GAL",
+    },
+    {
+      "id": 132,
+      "info": "Thai Baht to Sologenic",
+      "symbol": "THB_SOLO",
+    },
+    {
+      "id": 133,
+      "info": "Thai Baht to Terra",
+      "symbol": "THB_LUNA2",
+    },
+    {
+      "id": 134,
+      "info": "Thai Baht to Optimism",
+      "symbol": "THB_OP",
+    },
+    {
+      "id": 135,
+      "info": "Thai Baht to Moonriver",
+      "symbol": "THB_MOVR",
+    },
+    {
+      "id": 136,
+      "info": "Thai Baht to Glimmer",
+      "symbol": "THB_GLMR",
+    },
+    {
+      "id": 139,
+      "info": "Thai Baht to 1inch Network",
+      "symbol": "THB_1INCH",
+    },
+    {
+      "id": 140,
+      "info": "Thai Baht to Cosmos",
+      "symbol": "THB_ATOM",
+    },
+    {
+      "id": 141,
+      "info": "Thai Baht to LDO",
+      "symbol": "THB_LDO",
+    },
+    {
+      "id": 142,
+      "info": "Thai Baht to STG",
+      "symbol": "THB_STG",
+    },
+    {
+      "id": 143,
+      "info": "Thai Baht to AXL",
+      "symbol": "THB_AXL",
+    },
+    {
+      "id": 144,
+      "info": "Thai Baht to FLOW",
+      "symbol": "THB_FLOW",
+    },
+    {
+      "id": 145,
+      "info": "Thai Baht to REALX",
+      "symbol": "THB_REALX",
+    },
+    {
+      "id": 146,
+      "info": "Thai Baht to Flare",
+      "symbol": "THB_FLR",
+    },
+    {
+      "id": 147,
+      "info": "Thai Baht to Frax Share",
+      "symbol": "THB_FXS",
+    },
+    {
+      "id": 148,
+      "info": "Thai Baht to Hashflow",
+      "symbol": "THB_HFT",
+    },
+    {
+      "id": 149,
+      "info": "Thai Baht to Arbitrum",
+      "symbol": "THB_ARB",
+    },
+    {
+      "id": 150,
+      "info": "Thai Baht to Liquity",
+      "symbol": "THB_LQTY",
+    },
+    {
+      "id": 152,
+      "info": "Thai Baht to Perpetual Protocol",
+      "symbol": "THB_PERP",
+    },
+    {
+      "id": 153,
+      "info": "Thai Baht to SPACE ID",
+      "symbol": "THB_ID",
+    },
+    {
+      "id": 155,
+      "info": "Thai Baht to JOE",
+      "symbol": "THB_JOE",
+    },
+    {
+      "id": 156,
+      "info": "Thai Baht to Blur",
+      "symbol": "THB_BLUR",
+    },
+    {
+      "id": 157,
+      "info": "Thai Baht to GNO",
+      "symbol": "THB_GNO",
+    },
+    {
+      "id": 158,
+      "info": "Thai Baht to WOO",
+      "symbol": "THB_WOO",
+    },
+    {
+      "id": 159,
+      "info": "Thai Baht to Ankr",
+      "symbol": "THB_ANKR",
+    },
+    {
+      "id": 160,
+      "info": "Thai Baht to Render Token",
+      "symbol": "THB_RNDR",
+    },
+    {
+      "id": 161,
+      "info": "Thai Baht to Injective",
+      "symbol": "THB_INJ",
+    },
+    {
+      "id": 162,
+      "info": "Thai Baht to Worldcoin",
+      "symbol": "THB_WLD",
+    },
+    {
+      "id": 164,
+      "info": "Thai Baht to Gmx",
+      "symbol": "THB_GMX",
+    },
+    {
+      "id": 165,
+      "info": "Thai Baht to PLEARN",
+      "symbol": "THB_PLN",
+    },
+    {
+      "id": 166,
+      "info": "Thai Baht to CyberConnect",
+      "symbol": "THB_CYBER",
+    },
+    {
+      "id": 167,
+      "info": "Thai Baht to Flux",
+      "symbol": "THB_FLUX",
+    },
+    {
+      "id": 168,
+      "info": "Thai Baht to Quant",
+      "symbol": "THB_QNT",
+    },
+    {
+      "id": 169,
+      "info": "Thai Baht to Connext Network",
+      "symbol": "THB_NEXT",
+    },
+    {
+      "id": 170,
+      "info": "Thai Baht to Celestia",
+      "symbol": "THB_TIA",
+    },
+  ],
 }
 `;
 

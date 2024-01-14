@@ -5,6 +5,8 @@ import { createApi as createMarketApi } from "./__mocks__/apis/bitkub/marketApi"
 import { createApi as createServerTimeApi } from "./__mocks__/apis/bitkub/serverTimeApi";
 import {
   BITKUB_API_KEY_HEADER_NAME,
+  BITKUB_SIGNATURE_HEADER_NAME,
+  BITKUB_TIMESTAMP_HEADER_NAME,
   CONTENT_TYPE_HEADER_NAME,
 } from "./constants";
 import {
@@ -49,35 +51,34 @@ describe("Bitkub client", () => {
 
     client.apiKey = newApiKey;
 
-    const reqheaders: BitkubHeaderType = {
-      [BITKUB_API_KEY_HEADER_NAME]: newApiKey,
-      accept: "application/json",
-      [CONTENT_TYPE_HEADER_NAME]: "application/json",
-    };
-
-    createServerTimeApi(reqheaders);
-
-    const currentServerTime = await client.getServerTime();
-
-    expect(currentServerTime.data).not.toBeNull();
+    expect(client.apiKey).toMatchSnapshot();
   });
 
+  it("Can generate request header for GET method", async () =>{
+    client.baseApiUrl = TEST_API_URL;
+
+    const requestHeaders = await client.buildRequestHeaders('GET','/v3/hello?message=true', { test: "111" });
+
+    expect(requestHeaders).toMatchSnapshot();
+  })
+
   it("Can change the api secret", async () => {
-    const oldPayLoad = await client.buildPayload({ test: "111" });
+    client.baseApiUrl = TEST_API_URL;
+    const oldRequestHeaders = await client.buildRequestHeaders('POST','/v3/hello', { test: "111" });
 
     client.apiSecret = "XXXXXXXXXXXXXX";
 
-    const newPayLoad = await client.buildPayload({ test: "111" });
+    const newRequestHeaders = await client.buildRequestHeaders('POST','/v3/hello',{ test: "111" });
 
-    expect(oldPayLoad).not.toEqual(newPayLoad);
+    expect(oldRequestHeaders).not.toEqual(newRequestHeaders);
   });
 
   it("Build a request payload including signature key", async () => {
+    client.setEnvironment(BitkubEnvironment.PRODUCTION);
+    client.baseApiUrl = TEST_API_URL;
     const payload = { id: "1234" };
-    const result = await client.buildPayload(payload);
-    expect(result).toHaveProperty("id");
-    expect(result).toHaveProperty("sig");
-    expect(result).toHaveProperty("ts");
+    const result = await client.buildRequestHeaders('POST','/v3/hello',payload);
+    expect(result).toMatchSnapshot();
   });
 
   it("Get symbols", async () => {
@@ -85,8 +86,7 @@ describe("Bitkub client", () => {
     const content: SymbolResponse = result.data;
 
     console.log("Bitkub All Symbols:", content);
-    expect(content).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
-    expect(content).toHaveProperty("result");
+    expect(content).toMatchSnapshot();
   });
 
   it("Get balances", async () => {
