@@ -1,6 +1,6 @@
 {
   "name": "bitkub-client",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A client wrapper class for calling the Bitkub APIs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,9 +10,9 @@
   "scripts": {
     "clean": "rm -rf dist",
     "test": "jest test --silent --coverage",
-    "build": "tsc",
+    "build": "yarn clean && tsc",
     "build:docs": "mkdir public && typedoc src/* && mv docs/* public",
-    "publish": "tsc && npm publish --access public"
+    "publish": "rm -rf dist && tsc && npm publish --access public"
   },
   "keywords": [
     "bitkub",
