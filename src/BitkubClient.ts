@@ -166,13 +166,13 @@ export default class BitkubClient {
 
   /**
    * Get current balances
-   *
+   * TODO : There is some problem in authentication part on API v3. It doesn't work until Bitkub team verify the issue.
+   * 
    * @returns A list of current balances
    */
   async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
     return this._axiosInstance.post(
       `/v3/market/balances`,
-      {},
       {headers:await this.buildRequestHeaders('GET',`/v3/market/balances`)}
     );
   }
