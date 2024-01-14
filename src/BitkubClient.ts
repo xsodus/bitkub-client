@@ -172,8 +172,8 @@ export default class BitkubClient {
   async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
     return this._axiosInstance.post(
       `/v3/market/balances`,
-      null,
-      {headers:await this.buildRequestHeaders('GET',`/v3/market/balances`)}
+      undefined,
+      {headers:await this.buildRequestHeaders('POST',`/v3/market/balances`)}
     );
   }
 
