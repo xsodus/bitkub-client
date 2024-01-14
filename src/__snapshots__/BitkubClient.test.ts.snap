@@ -17,8 +17,8 @@ exports[`Bitkub client Ask a bid with default order type 1`] = `
 
 exports[`Bitkub client Build a request payload including signature key 1`] = `
 {
-  "X-BTK-APIKEY": "e954fe8c6f52e6176615b72e1110552d216764fd9f4432de07d071a56ccc5993",
-  "X-BTK-SIGN": "14727e716ddd2bad4f64280b304919823d310741c820a1988872fb790aebf007",
+  "X-BTK-APIKEY": "test-key",
+  "X-BTK-SIGN": "735066e5b9cf225344cb32b5e8e9441735f6a1ecffd75907853886f8ea37f65a",
   "X-BTK-TIMESTAMP": 1699376552354,
   "accept": "application/json",
   "content-type": "application/json",
@@ -29,8 +29,8 @@ exports[`Bitkub client Can change the api key 1`] = `undefined`;
 
 exports[`Bitkub client Can generate request header for GET method 1`] = `
 {
-  "X-BTK-APIKEY": "e954fe8c6f52e6176615b72e1110552d216764fd9f4432de07d071a56ccc5993",
-  "X-BTK-SIGN": "863e1e5fd462f44ec96d1f60f9e9e048e82b8b69304b52ec4bdc20bfc88e8ae1",
+  "X-BTK-APIKEY": "test-key",
+  "X-BTK-SIGN": "dc2f15cf69d9ec17f103c5ce1936a7acf51b79c0e412baf1eb448206953fd7ff",
   "X-BTK-TIMESTAMP": 1699376552354,
   "accept": "application/json",
   "content-type": "application/json",
