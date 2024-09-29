@@ -437,19 +437,9 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_ETH",
     },
     {
-      "id": 3,
-      "info": "Thai Baht to Wancoin",
-      "symbol": "THB_WAN",
-    },
-    {
       "id": 4,
       "info": "Thai Baht to Cardano",
       "symbol": "THB_ADA",
-    },
-    {
-      "id": 5,
-      "info": "Thai Baht to OMG Network",
-      "symbol": "THB_OMG",
     },
     {
       "id": 6,
@@ -677,14 +667,14 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_CRV",
     },
     {
+      "id": 87,
+      "info": "Thai Baht to API3",
+      "symbol": "THB_API3",
+    },
+    {
       "id": 88,
       "info": "Thai Baht to The Graph",
       "symbol": "THB_GRT",
-    },
-    {
-      "id": 90,
-      "info": "Thai Baht to Polygon",
-      "symbol": "THB_MATIC",
     },
     {
       "id": 92,
@@ -742,19 +732,9 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_SGB",
     },
     {
-      "id": 108,
-      "info": "Thai Baht to LUKSO",
-      "symbol": "THB_LYXE",
-    },
-    {
       "id": 112,
       "info": "Thai Baht to Chiliz",
       "symbol": "THB_CHZ",
-    },
-    {
-      "id": 114,
-      "info": "Thai Baht to GuildFi",
-      "symbol": "THB_GF",
     },
     {
       "id": 115,
@@ -805,11 +785,6 @@ exports[`Bitkub client Get symbols 1`] = `
       "id": 129,
       "info": "Thai Baht to Celo",
       "symbol": "THB_CELO",
-    },
-    {
-      "id": 131,
-      "info": "Thai Baht to Galxe",
-      "symbol": "THB_GAL",
     },
     {
       "id": 132,
@@ -980,6 +955,216 @@ exports[`Bitkub client Get symbols 1`] = `
       "id": 170,
       "info": "Thai Baht to Celestia",
       "symbol": "THB_TIA",
+    },
+    {
+      "id": 172,
+      "info": "Thai Baht to Lukso",
+      "symbol": "THB_LYX",
+    },
+    {
+      "id": 173,
+      "info": "Thai Baht to Zeta",
+      "symbol": "THB_ZETA",
+    },
+    {
+      "id": 174,
+      "info": "Thai Baht to Ondo Finance",
+      "symbol": "THB_ONDO",
+    },
+    {
+      "id": 175,
+      "info": "Thai Baht to Altlayer",
+      "symbol": "THB_ALT",
+    },
+    {
+      "id": 176,
+      "info": "Thai Baht to Velodrome Finance",
+      "symbol": "THB_VELO",
+    },
+    {
+      "id": 177,
+      "info": "Thai Baht to Radiant Capital",
+      "symbol": "THB_RDNT",
+    },
+    {
+      "id": 178,
+      "info": "Thai Baht to Safepal",
+      "symbol": "THB_SFP",
+    },
+    {
+      "id": 180,
+      "info": "Thai Baht to Kaia",
+      "symbol": "THB_KLAY",
+    },
+    {
+      "id": 181,
+      "info": "Thai Baht to Marblex",
+      "symbol": "THB_MBX",
+    },
+    {
+      "id": 182,
+      "info": "Thai Baht to Osmosis",
+      "symbol": "THB_OSMO",
+    },
+    {
+      "id": 183,
+      "info": "Thai Baht to Aevo",
+      "symbol": "THB_AEVO",
+    },
+    {
+      "id": 184,
+      "info": "Thai Baht to SKALE",
+      "symbol": "THB_SKL",
+    },
+    {
+      "id": 185,
+      "info": "Thai Baht to Trust Wallet Token",
+      "symbol": "THB_TWT",
+    },
+    {
+      "id": 186,
+      "info": "Thai Baht to Heroes of Mavia",
+      "symbol": "THB_MAVIA",
+    },
+    {
+      "id": 187,
+      "info": "Thai Baht to Ethena",
+      "symbol": "THB_ENA",
+    },
+    {
+      "id": 188,
+      "info": "Thai Baht to Zentry",
+      "symbol": "THB_ZENT",
+    },
+    {
+      "id": 189,
+      "info": "Thai Baht to IQ",
+      "symbol": "THB_IQ",
+    },
+    {
+      "id": 190,
+      "info": "Thai Baht to Ether.Fi",
+      "symbol": "THB_ETHFI",
+    },
+    {
+      "id": 191,
+      "info": "Thai Baht to Aerodrome",
+      "symbol": "THB_AERO",
+    },
+    {
+      "id": 192,
+      "info": "Thai Baht to Livepeer",
+      "symbol": "THB_LPT",
+    },
+    {
+      "id": 193,
+      "info": "Thai Baht to Omni Network",
+      "symbol": "THB_OMNI",
+    },
+    {
+      "id": 194,
+      "info": "Thai Baht to OriginTrail",
+      "symbol": "THB_TRAC",
+    },
+    {
+      "id": 195,
+      "info": "Thai Baht to BENQI",
+      "symbol": "THB_QI",
+    },
+    {
+      "id": 196,
+      "info": "Thai Baht to Arkham",
+      "symbol": "THB_ARKM",
+    },
+    {
+      "id": 197,
+      "info": "Thai Baht to Safe",
+      "symbol": "THB_SAFE",
+    },
+    {
+      "id": 198,
+      "info": "Thai Baht to Renzo",
+      "symbol": "THB_REZ",
+    },
+    {
+      "id": 200,
+      "info": "Thai Baht to Kava",
+      "symbol": "THB_KAVA",
+    },
+    {
+      "id": 201,
+      "info": "Thai Baht to ssv.network",
+      "symbol": "THB_SSV",
+    },
+    {
+      "id": 202,
+      "info": "Thai Baht to Tellor",
+      "symbol": "THB_TRB",
+    },
+    {
+      "id": 203,
+      "info": "Thai Baht to Ronin",
+      "symbol": "THB_RON",
+    },
+    {
+      "id": 204,
+      "info": "Thai Baht to Reserve Rights",
+      "symbol": "THB_RSR",
+    },
+    {
+      "id": 205,
+      "info": "Thai Baht to zkSync",
+      "symbol": "THB_ZK",
+    },
+    {
+      "id": 206,
+      "info": "Thai Baht to Spectral",
+      "symbol": "THB_SPEC",
+    },
+    {
+      "id": 207,
+      "info": "Thai Baht to Celer Network",
+      "symbol": "THB_CELR",
+    },
+    {
+      "id": 208,
+      "info": "Thai Baht to LayerZero",
+      "symbol": "THB_ZRO",
+    },
+    {
+      "id": 209,
+      "info": "Thai Baht to Aethir",
+      "symbol": "THB_ATH",
+    },
+    {
+      "id": 210,
+      "info": "Thai Baht to Mantle",
+      "symbol": "THB_MNT",
+    },
+    {
+      "id": 211,
+      "info": "Thai Baht to IoTeX",
+      "symbol": "THB_IOTX",
+    },
+    {
+      "id": 215,
+      "info": "Thai Baht to Core",
+      "symbol": "THB_CORE",
+    },
+    {
+      "id": 219,
+      "info": "Thai Baht to Toncoin",
+      "symbol": "THB_TON",
+    },
+    {
+      "id": 223,
+      "info": "Thai Baht to Polygon",
+      "symbol": "THB_POL",
+    },
+    {
+      "id": 224,
+      "info": "Thai Baht to Gravity",
+      "symbol": "THB_G",
     },
   ],
 }
