@@ -27,7 +27,7 @@ export default class BitkubClient {
   private _apiSecret: string;
   private _environment: BitkubEnvironment;
   private _axiosInstance: Axios;
-  private _requestHeaders: BitkubHeaderType | null = null;
+  private _requestHeaders: BitkubHeaderType;
   private _requestTimeout: number;
   private _baseApiUrl: string;
   private _apiKey: string;
@@ -52,7 +52,7 @@ export default class BitkubClient {
     this._apiSecret = apiSecret;
     this._environment = environment;
     this._requestTimeout = requestTimeout;
-    this._requestHeaders = this.createAxiosHeader();
+    this._requestHeaders = this.createAxiosHeader() as BitkubHeaderType;
     this._axiosInstance = this.createAxiosInstance();
   }
 
@@ -72,7 +72,7 @@ export default class BitkubClient {
    */
   private createAxiosInstance(): AxiosInstance {
     return axios.create({
-      headers: this._requestHeaders || {},
+      headers: this._requestHeaders ,
       timeout: this._requestTimeout,
       baseURL: this._baseApiUrl,
     });
