@@ -6,8 +6,12 @@ import bitkubPlaceBidResponse from "./reponses/bitkubBuyResponse.json";
 import bitkubCancelOrderResponse from "./reponses/bitkubCancelOrderResponse.json";
 import bitkubPlaceAskResponse from "./reponses/bitkubSellResponse.json";
 import bitkubTestPlaceBidResponse from "./reponses/bitkubTestBuyResponse.json";
-import { BITKUB_API_KEY_HEADER_NAME, BITKUB_SIGNATURE_HEADER_NAME } from "../../../constants";
 
+/**
+ * Creates a mock API for the market endpoint using `nock`.
+ * 
+ * @returns {void}
+ */
 export const createApi = () => {
   nock(TEST_API_URL)
     .post("/v3/market/place-ask")
