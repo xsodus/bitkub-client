@@ -23,6 +23,32 @@ import {
 } from "./models";
 import isEmpty from 'lodash/isEmpty'
 
+/**
+ * BitkubClient is a class that provides methods to interact with the Bitkub API.
+ * It allows users to perform various operations such as getting server time, 
+ * retrieving market symbols, checking balances, placing bids and asks, and 
+ * canceling orders.
+ * 
+ * @class BitkubClient
+ * @example
+ * ```typescript
+ * const client = new BitkubClient(apiKey, apiSecret);
+ * const serverTime = await client.getServerTime();
+ * const symbols = await client.getSymbols();
+ * const balances = await client.getBalances();
+ * const bids = await client.getBids('BTC_THB');
+ * const asks = await client.getAsks('BTC_THB');
+ * const placeBidResponse = await client.placeBid('BTC_THB', 1, 500000);
+ * const placeAskResponse = await client.placeAsk('BTC_THB', 1, 600000);
+ * const cancelOrderResponse = await client.cancelOrder(null, 'BTC_THB', '12345', 'buy');
+ * ```
+ * 
+ * @param {string} apiKey - Your API Key
+ * @param {string} apiSecret - Your API Secret
+ * @param {BitkubEnvironment} [environment=BitkubEnvironment.TEST] - Environment to call API
+ * @param {string} [baseApiUrl=SECURE_API_URL] - Base API URL
+ * @param {number} [requestTimeout=10000] - Request timeout in milliseconds
+ */
 export default class BitkubClient {
   private _apiSecret: string;
   private _environment: BitkubEnvironment;
@@ -224,6 +250,7 @@ export default class BitkubClient {
       .digest("hex");
     return hash;
   }
+
 
   /**
    * Place bid
