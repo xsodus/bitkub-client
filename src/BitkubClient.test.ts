@@ -10,6 +10,7 @@ import {
   OrderSide,
   SymbolResponse,
 } from "./models";
+import { BITKUB_API_KEY_HEADER_NAME, CONTENT_TYPE_HEADER_NAME, SECURE_API_URL } from "./constants";
 
 let client: BitkubClient;
 
@@ -267,5 +268,47 @@ describe("Bitkub client", () => {
     await expect(client.getServerTime()).rejects.toThrowError(
       "timeout of 1ms exceeded"
     );
+  });  
+});
+
+describe("BitkubClient constructor", () => {
+  it("should set default values correctly", () => {
+    const client = new BitkubClient("test-key", "test-secret");
+
+    expect(client["_apiKey"]).toBe("test-key");
+    expect(client["_apiSecret"]).toBe("test-secret");
+    expect(client["_environment"]).toBe(BitkubEnvironment.TEST);
+    expect(client["_baseApiUrl"]).toBe(SECURE_API_URL);
+    expect(client["_requestTimeout"]).toBe(10000);
+  });
+
+  it("should set custom values correctly", () => {
+    const client = new BitkubClient(
+      "custom-key",
+      "custom-secret",
+      BitkubEnvironment.PRODUCTION,
+      "https://custom-api-url.com",
+      5000
+    );
+
+    expect(client["_apiKey"]).toBe("custom-key");
+    expect(client["_apiSecret"]).toBe("custom-secret");
+    expect(client["_environment"]).toBe(BitkubEnvironment.PRODUCTION);
+    expect(client["_baseApiUrl"]).toBe("https://custom-api-url.com");
+    expect(client["_requestTimeout"]).toBe(5000);
+  });
+
+  it("should create axios instance with correct configuration", () => {
+    const client = new BitkubClient("test-key", "test-secret");
+
+    const axiosInstance = client["_axiosInstance"];
+    expect(axiosInstance.defaults.headers).toMatchObject({
+      [BITKUB_API_KEY_HEADER_NAME]: "test-key",
+      accept: "application/json",
+      [CONTENT_TYPE_HEADER_NAME]: "application/json",
+    });
+    expect(axiosInstance.defaults.timeout).toBe(10000);
+    expect(axiosInstance.defaults.baseURL).toBe(SECURE_API_URL);
   });
 });
+
