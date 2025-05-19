@@ -3,5 +3,5 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  #schedule:
+  #schedule: # Uncomment this block to enable scheduled runs (e.g., weekly scans).
   #  - cron: "0 0 * * 0"
