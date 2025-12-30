@@ -1,12 +1,22 @@
 name: bitkub-client-ci
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semver bump type (patch, minor, major) or exact version"
+        required: true
+        default: "patch"
+        type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -14,6 +24,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Node.js 16.19
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
@@ -24,7 +36,18 @@ jobs:
           curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
           echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
           sudo apt-get update && sudo apt-get install -y yarn
+      - name: Install Dependencies
+        run: yarn
+      - name: Build
+        run: yarn build
       - name: Run Tests
+        run: yarn test
+      - name: Bump Version and Publish
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
-          yarn
-          yarn test
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          npm version ${{ github.event.inputs.version || 'patch' }} -m "Bump version to %s [skip ci]"
+          git push
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          npm run publish
