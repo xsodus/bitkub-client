@@ -2,3 +2,5 @@
     publish = "public"
     command = "yarn build:docs"
 
+[build.environment]
+    NODE_VERSION = "24.11.0"
