@@ -55,4 +55,12 @@ jobs:
           npm version ${{ github.event.inputs.version || 'patch' }} -m "Bump version to %s [skip ci]"
           git push
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-          npm run publish
+
+          # Check if version already exists on NPM
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version > /dev/null 2>&1; then
+            echo "Version $PACKAGE_VERSION already exists on NPM. Skipping publish."
+          else
+            npm run publish
+          fi
