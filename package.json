@@ -42,5 +42,9 @@
     "ts-node": "^10.9.1",
     "typedoc": "^0.25.3",
     "typescript": "^5.0.4"
+  },
+  "resolutions": {
+    "json5": "^2.2.2",
+    "@babel/traverse": "^7.23.2"
   }
 }
