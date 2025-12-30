@@ -23,25 +23,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_PAT }}
-      - name: Install Node.js 24.x
-        run: |
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-          . ~/.nvm/nvm.sh
-          nvm install 24
+          token: ${{ secrets.GH_PAT || github.token }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - name: Install Yarn
-        run: |
-          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-          sudo apt-get update && sudo apt-get install -y yarn
+        run: npm install -g yarn
+
       - name: Install Dependencies
-        run: yarn
+        run: yarn install
+
       - name: Build
         run: yarn build
+
       - name: Run Tests
         run: yarn test
+
       - name: Bump Version and Publish
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
