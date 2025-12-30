@@ -542,11 +542,6 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_TRX",
     },
     {
-      "id": 39,
-      "info": "Thai Baht to Dai",
-      "symbol": "THB_DAI",
-    },
-    {
       "id": 43,
       "info": "Thai Baht to Tezos",
       "symbol": "THB_XTZ",
@@ -565,11 +560,6 @@ exports[`Bitkub client Get symbols 1`] = `
       "id": 49,
       "info": "Thai Baht to Basic Attention Token",
       "symbol": "THB_BAT",
-    },
-    {
-      "id": 50,
-      "info": "Thai Baht to Maker",
-      "symbol": "THB_MKR",
     },
     {
       "id": 56,
@@ -837,11 +827,6 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_REALX",
     },
     {
-      "id": 146,
-      "info": "Thai Baht to Flare",
-      "symbol": "THB_FLR",
-    },
-    {
       "id": 147,
       "info": "Thai Baht to Frax Share",
       "symbol": "THB_FXS",
@@ -1035,11 +1020,6 @@ exports[`Bitkub client Get symbols 1`] = `
       "id": 192,
       "info": "Thai Baht to Livepeer",
       "symbol": "THB_LPT",
-    },
-    {
-      "id": 193,
-      "info": "Thai Baht to Omni Network",
-      "symbol": "THB_OMNI",
     },
     {
       "id": 194,
@@ -1267,6 +1247,11 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_CATI",
     },
     {
+      "id": 244,
+      "info": "Thai Baht to Magic Eden",
+      "symbol": "THB_ME",
+    },
+    {
       "id": 245,
       "info": "Thai Baht to Orca",
       "symbol": "THB_ORCA",
@@ -1292,6 +1277,11 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_SUMX",
     },
     {
+      "id": 254,
+      "info": "Thai Baht to Peaq Network",
+      "symbol": "THB_PEAQ",
+    },
+    {
       "id": 255,
       "info": "Thai Baht to Everclear",
       "symbol": "THB_CLEAR",
@@ -1302,9 +1292,24 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_AUSD",
     },
     {
+      "id": 257,
+      "info": "Thai Baht to Pendle",
+      "symbol": "THB_PENDLE",
+    },
+    {
       "id": 258,
       "info": "Thai Baht to Virtuals Protocol",
       "symbol": "THB_VIRTUAL",
+    },
+    {
+      "id": 259,
+      "info": "Thai Baht to Sei",
+      "symbol": "THB_SEI",
+    },
+    {
+      "id": 260,
+      "info": "Thai Baht to KernelDAO",
+      "symbol": "THB_KERNEL",
     },
     {
       "id": 262,
@@ -1337,6 +1342,11 @@ exports[`Bitkub client Get symbols 1`] = `
       "symbol": "THB_GRASS",
     },
     {
+      "id": 268,
+      "info": "Thai Baht to Bubblemaps",
+      "symbol": "THB_BMT",
+    },
+    {
       "id": 270,
       "info": "Thai Baht to Cetus Protocol",
       "symbol": "THB_CETUS",
@@ -1345,6 +1355,376 @@ exports[`Bitkub client Get symbols 1`] = `
       "id": 271,
       "info": "Thai Baht to NEXPACE",
       "symbol": "THB_NXPC",
+    },
+    {
+      "id": 272,
+      "info": "Thai Baht to Walletconnect Token",
+      "symbol": "THB_WCT",
+    },
+    {
+      "id": 273,
+      "info": "Thai Baht to Kamino Finance",
+      "symbol": "THB_KMNO",
+    },
+    {
+      "id": 274,
+      "info": "Thai Baht to Solayer",
+      "symbol": "THB_LAYER",
+    },
+    {
+      "id": 277,
+      "info": "Thai Baht to Biconomy",
+      "symbol": "THB_BICO",
+    },
+    {
+      "id": 278,
+      "info": "Thai Baht to Elysia",
+      "symbol": "THB_EL",
+    },
+    {
+      "id": 279,
+      "info": "Thai Baht to Space and Time",
+      "symbol": "THB_SXT",
+    },
+    {
+      "id": 280,
+      "info": "Thai Baht to Wayfinder",
+      "symbol": "THB_PROMPT",
+    },
+    {
+      "id": 281,
+      "info": "Thai Baht to StakeStone",
+      "symbol": "THB_STO",
+    },
+    {
+      "id": 282,
+      "info": "Thai Baht to MyShell",
+      "symbol": "THB_SHELL",
+    },
+    {
+      "id": 283,
+      "info": "Thai Baht to Across Protocol",
+      "symbol": "THB_ACX",
+    },
+    {
+      "id": 284,
+      "info": "Thai Baht to USDS",
+      "symbol": "THB_USDS",
+    },
+    {
+      "id": 285,
+      "info": "Thai Baht to Lagrange",
+      "symbol": "THB_LA",
+    },
+    {
+      "id": 286,
+      "info": "Thai Baht to Defi App",
+      "symbol": "THB_HOME",
+    },
+    {
+      "id": 287,
+      "info": "Thai Baht to Resolv",
+      "symbol": "THB_RESOLV",
+    },
+    {
+      "id": 288,
+      "info": "Thai Baht to Huma Finance",
+      "symbol": "THB_HUMA",
+    },
+    {
+      "id": 289,
+      "info": "Thai Baht to Haedal",
+      "symbol": "THB_HAEDAL",
+    },
+    {
+      "id": 290,
+      "info": "Thai Baht to DeLorean",
+      "symbol": "THB_DMC",
+    },
+    {
+      "id": 291,
+      "info": "Thai Baht to Cookie DAO",
+      "symbol": "THB_COOKIE",
+    },
+    {
+      "id": 292,
+      "info": "Thai Baht to Maple Finance",
+      "symbol": "THB_SYRUP",
+    },
+    {
+      "id": 294,
+      "info": "Thai Baht to Sky",
+      "symbol": "THB_SKY",
+    },
+    {
+      "id": 295,
+      "info": "Thai Baht to Spark",
+      "symbol": "THB_SPK",
+    },
+    {
+      "id": 296,
+      "info": "Thai Baht to Morpho",
+      "symbol": "THB_MORPHO",
+    },
+    {
+      "id": 297,
+      "info": "Thai Baht to Newton Protocol",
+      "symbol": "THB_NEWT",
+    },
+    {
+      "id": 298,
+      "info": "Thai Baht to Sahara AI",
+      "symbol": "THB_SAHARA",
+    },
+    {
+      "id": 300,
+      "info": "Thai Baht to Manta Network",
+      "symbol": "THB_MANTA",
+    },
+    {
+      "id": 301,
+      "info": "Thai Baht to Babylon",
+      "symbol": "THB_BABY",
+    },
+    {
+      "id": 302,
+      "info": "Thai Baht to Sophon",
+      "symbol": "THB_SOPH",
+    },
+    {
+      "id": 303,
+      "info": "Thai Baht to Eclipse",
+      "symbol": "THB_ES",
+    },
+    {
+      "id": 304,
+      "info": "Thai Baht to Caldera",
+      "symbol": "THB_ERA",
+    },
+    {
+      "id": 305,
+      "info": "Thai Baht to Chainbase",
+      "symbol": "THB_C",
+    },
+    {
+      "id": 306,
+      "info": "Thai Baht to Scallop",
+      "symbol": "THB_SCA",
+    },
+    {
+      "id": 307,
+      "info": "Thai Baht to Treehouse",
+      "symbol": "THB_TREE",
+    },
+    {
+      "id": 308,
+      "info": "Thai Baht to Hyperlane",
+      "symbol": "THB_HYPER",
+    },
+    {
+      "id": 309,
+      "info": "Thai Baht to Taiko",
+      "symbol": "THB_TAIKO",
+    },
+    {
+      "id": 310,
+      "info": "Thai Baht to Succinct",
+      "symbol": "THB_PROVE",
+    },
+    {
+      "id": 311,
+      "info": "Thai Baht to Towns",
+      "symbol": "THB_TOWNS",
+    },
+    {
+      "id": 312,
+      "info": "Thai Baht to Subsquid",
+      "symbol": "THB_SQD",
+    },
+    {
+      "id": 313,
+      "info": "Thai Baht to Sonic SVM",
+      "symbol": "THB_SONIC",
+    },
+    {
+      "id": 314,
+      "info": "Thai Baht to Aspecta",
+      "symbol": "THB_ASP",
+    },
+    {
+      "id": 315,
+      "info": "Thai Baht to Epic Chain",
+      "symbol": "THB_EPIC",
+    },
+    {
+      "id": 316,
+      "info": "Thai Baht to Sapien",
+      "symbol": "THB_SAPIEN",
+    },
+    {
+      "id": 317,
+      "info": "Thai Baht to Linea",
+      "symbol": "THB_LINEA",
+    },
+    {
+      "id": 318,
+      "info": "Thai Baht to Conflux",
+      "symbol": "THB_CFX",
+    },
+    {
+      "id": 320,
+      "info": "Thai Baht to Plasma",
+      "symbol": "THB_XPL",
+    },
+    {
+      "id": 322,
+      "info": "Thai Baht to Mitosis",
+      "symbol": "THB_MITO",
+    },
+    {
+      "id": 323,
+      "info": "Thai Baht to OpenLedger",
+      "symbol": "THB_OPEN",
+    },
+    {
+      "id": 324,
+      "info": "Thai Baht to Avantis",
+      "symbol": "THB_AVNT",
+    },
+    {
+      "id": 326,
+      "info": "Thai Baht to Dolomite",
+      "symbol": "THB_DOLO",
+    },
+    {
+      "id": 327,
+      "info": "Thai Baht to Somnia",
+      "symbol": "THB_SOMI",
+    },
+    {
+      "id": 328,
+      "info": "Thai Baht to SOON",
+      "symbol": "THB_SOON",
+    },
+    {
+      "id": 329,
+      "info": "Thai Baht to Boundless",
+      "symbol": "THB_ZKC",
+    },
+    {
+      "id": 330,
+      "info": "Thai Baht to Lombard Finance",
+      "symbol": "THB_BARD",
+    },
+    {
+      "id": 331,
+      "info": "Thai Baht to Tether Gold",
+      "symbol": "THB_XAUT",
+    },
+    {
+      "id": 332,
+      "info": "Thai Baht to Nomina",
+      "symbol": "THB_NOM",
+    },
+    {
+      "id": 333,
+      "info": "Thai Baht to BONK",
+      "symbol": "THB_BONK",
+    },
+    {
+      "id": 335,
+      "info": "Thai Baht to Memecoin",
+      "symbol": "THB_MEME",
+    },
+    {
+      "id": 337,
+      "info": "Thai Baht to Filecoin",
+      "symbol": "THB_FIL",
+    },
+    {
+      "id": 338,
+      "info": "Thai Baht to DoubleZero",
+      "symbol": "THB_2Z",
+    },
+    {
+      "id": 339,
+      "info": "Thai Baht to Mira",
+      "symbol": "THB_MIRA",
+    },
+    {
+      "id": 340,
+      "info": "Thai Baht to Falcon Finance",
+      "symbol": "THB_FF",
+    },
+    {
+      "id": 341,
+      "info": "Thai Baht to Hyperliquid",
+      "symbol": "THB_HYPE",
+    },
+    {
+      "id": 342,
+      "info": "Thai Baht to OpenEden",
+      "symbol": "THB_EDEN",
+    },
+    {
+      "id": 343,
+      "info": "Thai Baht to Hemi",
+      "symbol": "THB_HEMI",
+    },
+    {
+      "id": 344,
+      "info": "Thai Baht to Recall",
+      "symbol": "THB_RECALL",
+    },
+    {
+      "id": 345,
+      "info": "Thai Baht to Pudgy Penguins",
+      "symbol": "THB_PENGU",
+    },
+    {
+      "id": 346,
+      "info": "Thai Baht to Anoma",
+      "symbol": "THB_XAN",
+    },
+    {
+      "id": 347,
+      "info": "Thai Baht to Enso",
+      "symbol": "THB_ENSO",
+    },
+    {
+      "id": 349,
+      "info": "Thai Baht to xMoney",
+      "symbol": "THB_XMN",
+    },
+    {
+      "id": 350,
+      "info": "Thai Baht to Kite",
+      "symbol": "THB_KITE",
+    },
+    {
+      "id": 351,
+      "info": "Thai Baht to Turtle",
+      "symbol": "THB_TURTLE",
+    },
+    {
+      "id": 352,
+      "info": "Thai Baht to Bittensor",
+      "symbol": "THB_TAO",
+    },
+    {
+      "id": 353,
+      "info": "Thai Baht to Monad",
+      "symbol": "THB_MON",
+    },
+    {
+      "id": 354,
+      "info": "Thai Baht to Wemix",
+      "symbol": "THB_WEMIX",
+    },
+    {
+      "id": 355,
+      "info": "Thai Baht to Metaplex",
+      "symbol": "THB_MPLX",
     },
   ],
 }
