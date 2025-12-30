@@ -62,5 +62,5 @@ jobs:
           if npm view "$PACKAGE_NAME@$PACKAGE_VERSION" version > /dev/null 2>&1; then
             echo "Version $PACKAGE_VERSION already exists on NPM. Skipping publish."
           else
-            npm run publish
+            npm publish --access public
           fi

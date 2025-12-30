@@ -12,7 +12,7 @@
     "test": "jest test --silent --coverage",
     "build": "yarn clean && tsc",
     "build:docs": "mkdir public && typedoc src/* && mv docs/* public",
-    "publish": "rm -rf dist && tsc && npm publish --access public"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "bitkub",
