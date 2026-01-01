@@ -1,12 +1,6 @@
-name: bitkub-client-ci
+name: Manual Deploy to NPM
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       version:
@@ -19,7 +13,7 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +25,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 24 # Keeping the version 24 as originally specified in main.yml
 
       - name: Install Yarn
         run: npm install -g yarn
@@ -46,13 +40,12 @@ jobs:
         run: yarn test
 
       - name: Bump Version and Publish
-        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add yarn.lock
           git diff --staged --quiet || git commit -m "Update yarn.lock [skip ci]"
-          npm version ${{ github.event.inputs.version || 'patch' }} -m "Bump version to %s [skip ci]"
+          npm version ${{ github.event.inputs.version }} -m "Bump version to %s [skip ci]"
           git push
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
