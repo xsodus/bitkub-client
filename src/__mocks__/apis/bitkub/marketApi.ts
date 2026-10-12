@@ -6,6 +6,7 @@ import bitkubPlaceBidResponse from "./reponses/bitkubBuyResponse.json";
 import bitkubCancelOrderResponse from "./reponses/bitkubCancelOrderResponse.json";
 import bitkubPlaceAskResponse from "./reponses/bitkubSellResponse.json";
 import bitkubTestPlaceBidResponse from "./reponses/bitkubTestBuyResponse.json";
+import bitkubSymbolsResponse from "./reponses/bitkubSymbolsResponse.json";
 
 /**
  * Creates a mock API for the market endpoint using `nock`.
@@ -13,6 +14,16 @@ import bitkubTestPlaceBidResponse from "./reponses/bitkubTestBuyResponse.json";
  * @returns {void}
  */
 export const createApi = () => {
+  nock(TEST_API_URL).get("/market/symbols").reply(200, bitkubSymbolsResponse);
+  nock(TEST_API_URL)
+    .get("/market/bids")
+    .query({ sym: "THB_BTC", lmt: "1" })
+    .reply(200, { error: 0, result: [["mock-bid-id", 1699376552, 0.001, 50000, 50]] });
+  nock(TEST_API_URL)
+    .get("/market/asks")
+    .query({ sym: "THB_BTC", lmt: "1" })
+    .reply(200, { error: 0, result: [["mock-ask-id", 1699376552, 0.001, 50000, 50]] });
+
   nock(TEST_API_URL)
     .post("/v3/market/place-ask")
     .reply(200, bitkubPlaceAskResponse);

@@ -21,7 +21,8 @@ describe("Bitkub client", () => {
     client = new BitkubClient(
       process.env.BITKUB_API_KEY || "test-key",
       process.env.BITKUB_API_SECRET || "test-secret",
-      BitkubEnvironment.PRODUCTION
+      BitkubEnvironment.PRODUCTION,
+      TEST_API_URL
     );
 
     // Server Time API
