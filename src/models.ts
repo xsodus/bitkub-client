@@ -54,11 +54,6 @@ export enum BitkubErrorCode {
   SERVER_ERROR = 90,
 }
 
-type BalanceType = {
-  available: number;
-  reserved: number;
-};
-
 export type BitkubHeaderType = {
   [BITKUB_API_KEY_HEADER_NAME]: string;
   accept: string;
@@ -74,13 +69,64 @@ export type BitkubSymbolInfo = {
 };
 
 export interface SymbolResponse {
-  error: BitkubErrorCode;
-  result: BitkubSymbolInfo[];
+  error?: BitkubErrorCode;
+  result: Array<BitkubSymbolInfo | MarketSymbolInfo>;
 }
 
-export interface BalancesResponse {
-  error: BitkubErrorCode;
-  result: Record<string, BalanceType>;
+export interface MarketSymbolInfo {
+  base_asset: string;
+  base_asset_scale: number;
+  buy_price_gap_as_percent: number;
+  created_at: string;
+  description: string;
+  freeze_buy: boolean;
+  freeze_cancel: boolean;
+  freeze_sell: boolean;
+  market_segment: string;
+  min_quote_size: number;
+  modified_at: string;
+  name: string;
+  pairing_id: number;
+  price_scale: number;
+  price_step: string;
+  quantity_scale: number;
+  quantity_step: string;
+  quote_asset: string;
+  quote_asset_scale: number;
+  sell_price_gap_as_percent: number;
+  status: string;
+  symbol: string;
+  source: string;
+}
+
+export interface BitkubV4Response<T> {
+  code: string | number;
+  message: string;
+  data: T;
+  pagination?: { page: number; limit: number };
+}
+
+export interface WalletBalance {
+  currency: string;
+  available: string;
+  reserved: string;
+  total: string;
+}
+
+export interface WalletQueryParams {
+  segment?: "funding";
+}
+
+export type BalancesResponse = BitkubV4Response<WalletBalance[]>;
+export type WalletAssetsResponse = BitkubV4Response<Record<string, string>>;
+
+export interface MarketOrder {
+  order_id: string;
+  price: string;
+  side: "buy" | "sell";
+  size: string;
+  timestamp: number;
+  volume: string;
 }
 
 export enum BitkubOrderType {
@@ -118,12 +164,12 @@ export interface PlaceAskResponse {
 
 export interface AskResponse {
   error: BitkubErrorCode;
-  result: Array<Array<number | string>>;
+  result: MarketOrder[];
 }
 
 export interface BidResponse {
   error: BitkubErrorCode;
-  result: Array<Array<number | string>>;
+  result: MarketOrder[];
 }
 
 export interface OrderRequest {

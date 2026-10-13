@@ -20,8 +20,9 @@ import {
   PlaceAskResponse,
   PlaceBidResponse,
   SymbolResponse,
+  WalletAssetsResponse,
+  WalletQueryParams,
 } from "./models";
-import isEmpty from 'lodash/isEmpty'
 
 /**
  * BitkubClient is a class that provides methods to interact with the Bitkub API.
@@ -166,18 +167,35 @@ export default class BitkubClient {
    * @param {object} request payload for each API.
    * @returns A request payload including ts and sig field which are required for any POST APIs.
    */
-  async buildRequestHeaders(method:'GET'|'POST', apiPath:string,payload?:Record<string,string|number|undefined>): Promise<BitkubHeaderType> {
-    const timestamp = (await this.getServerTime()).data
-
-    // Example for Post Method
-    // 1699376552354POST/api/v3/market/place-bid{"sym":"thb_btc","amt": 1000,"rat": 10,"typ": "limit"}
-    const token = `${timestamp}${method}/api${apiPath}${isEmpty(payload) ? '' : JSON.stringify(payload)}`
+  async buildRequestHeaders(
+    method: "GET" | "POST",
+    apiPath: string,
+    payload?: Record<string, string | number | undefined>
+  ): Promise<BitkubHeaderType> {
+    const timestamp = (await this.getServerTime()).data;
+    const [path, existingQuery] = apiPath.split("?", 2);
+    if (existingQuery !== undefined && payload && Object.keys(payload).length > 0) {
+      throw new Error("Provide GET query parameters in the path or payload, not both");
+    }
+    const queryParams: Record<string, string | number> = {};
+    for (const key of Object.keys(payload ?? {})) {
+      const value = payload?.[key];
+      if (value !== undefined) queryParams[key] = value;
+    }
+    const query = method === "GET"
+      ? existingQuery ?? querystring.stringify(queryParams)
+      : "";
+    const body = method === "POST" && payload && Object.keys(payload).length > 0
+      ? JSON.stringify(payload)
+      : "";
+    const signedPath = `${path}${query ? `?${query}` : ""}`;
+    const token = `${timestamp}${method}/api${signedPath}${body}`;
     const signature = this.generateSignature(token);
 
     return {
       ...this._requestHeaders,
       [BITKUB_SIGNATURE_HEADER_NAME]: signature,
-      [BITKUB_TIMESTAMP_HEADER_NAME]: timestamp
+      [BITKUB_TIMESTAMP_HEADER_NAME]: timestamp,
     } as BitkubHeaderType;
   }
 
@@ -187,7 +205,7 @@ export default class BitkubClient {
    * @returns A list of symbols in Bitkub market.
    */
   async getSymbols(): Promise<AxiosResponse<SymbolResponse>> {
-    return this._axiosInstance.get(`/market/symbols`);
+    return this._axiosInstance.get(`/v3/market/symbols`);
   }
 
   /**
@@ -195,12 +213,27 @@ export default class BitkubClient {
    * 
    * @returns A list of current balances
    */
-  async getBalances(): Promise<AxiosResponse<BalancesResponse>> {
-    return this._axiosInstance.post(
-      `/v3/market/balances`,
-      undefined,
-      {headers:await this.buildRequestHeaders('POST',`/v3/market/balances`)}
-    );
+  async getBalances(
+    params: WalletQueryParams = {}
+  ): Promise<AxiosResponse<BalancesResponse>> {
+    const path = "/v4/wallet/balances";
+    const query = querystring.stringify(params);
+    const uri = query ? `${path}?${query}` : path;
+    return this._axiosInstance.get(uri, {
+      headers: await this.buildRequestHeaders("GET", uri),
+    });
+  }
+
+  /** Get assets held in the funding wallet. */
+  async getWalletAssets(
+    params: WalletQueryParams = {}
+  ): Promise<AxiosResponse<WalletAssetsResponse>> {
+    const path = "/v4/wallet/assets";
+    const query = querystring.stringify(params);
+    const uri = query ? `${path}?${query}` : path;
+    return this._axiosInstance.get(uri, {
+      headers: await this.buildRequestHeaders("GET", uri),
+    });
   }
 
   /**
@@ -219,8 +252,8 @@ export default class BitkubClient {
       lmt: limit,
     };
     const queryParams = querystring.stringify(params);
-    const uri = `/market/bids?${queryParams}`
-    return this._axiosInstance.get(uri, {headers: await this.buildRequestHeaders('GET',uri)});
+    const uri = `/v3/market/bids?${queryParams}`;
+    return this._axiosInstance.get(uri);
   }
 
   /**
@@ -239,8 +272,8 @@ export default class BitkubClient {
       lmt: limit,
     };
     const queryParams = querystring.stringify(params);
-    const uri = `/market/asks?${queryParams}`;
-    return this._axiosInstance.get(uri,{headers:await this.buildRequestHeaders('GET',uri)});
+    const uri = `/v3/market/asks?${queryParams}`;
+    return this._axiosInstance.get(uri);
   }
 
   generateSignature(token: string): string {
