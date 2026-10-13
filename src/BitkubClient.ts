@@ -217,7 +217,9 @@ export default class BitkubClient {
     params: WalletQueryParams = {}
   ): Promise<AxiosResponse<BalancesResponse>> {
     const path = "/v4/wallet/balances";
-    const query = querystring.stringify(params);
+    const query = params.segment
+      ? querystring.stringify({ segment: params.segment })
+      : "";
     const uri = query ? `${path}?${query}` : path;
     return this._axiosInstance.get(uri, {
       headers: await this.buildRequestHeaders("GET", uri),
@@ -229,7 +231,9 @@ export default class BitkubClient {
     params: WalletQueryParams = {}
   ): Promise<AxiosResponse<WalletAssetsResponse>> {
     const path = "/v4/wallet/assets";
-    const query = querystring.stringify(params);
+    const query = params.segment
+      ? querystring.stringify({ segment: params.segment })
+      : "";
     const uri = query ? `${path}?${query}` : path;
     return this._axiosInstance.get(uri, {
       headers: await this.buildRequestHeaders("GET", uri),
