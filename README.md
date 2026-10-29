@@ -1,6 +1,6 @@
 # bitkub-client
 
-`bitkub-client` is a TypeScript wrapper for selected [Bitkub API v3](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) endpoints. It handles API request signing for its authenticated methods and returns Axios responses.
+`bitkub-client` is a TypeScript wrapper for selected [Bitkub API v3](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v3.md) and [v4](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v4.md) endpoints. It handles API request signing for authenticated methods and returns Axios responses.
 
 ## Install
 
@@ -31,7 +31,10 @@ async function main() {
   console.log("Symbols:", symbols.data.result);
 
   const balances = await client.getBalances();
-  console.log("Balances:", balances.data.result);
+  console.log("Balances:", balances.data.data);
+
+  const assets = await client.getWalletAssets();
+  console.log("Assets:", assets.data.data);
 }
 
 main().catch(console.error);
@@ -53,7 +56,8 @@ const client = new BitkubClient(
 | --- | --- |
 | `getServerTime()` | Get Bitkub server time. |
 | `getSymbols()` | List market symbols. |
-| `getBalances()` | Get balances for the API key. |
+| `getBalances(params?)` | Get funding wallet balances from v4. Amounts are decimal strings in `response.data.data`. |
+| `getWalletAssets(params?)` | Get funding wallet assets from v4. |
 | `getBids(symbol, limit?)` | Get bids for a market; limit defaults to `1`. |
 | `getAsks(symbol, limit?)` | Get asks for a market; limit defaults to `1`. |
 | `placeBid(symbol, amount, rate, orderType?, clientId?)` | Place a buy order. Order type defaults to `BitkubOrderType.MARKET`. |
@@ -86,7 +90,7 @@ You can also cancel with `cancelOrder(null, symbol, orderId, orderSide)` when yo
 
 ## Signing other API requests
 
-For a secured API v3 endpoint that this package does not wrap, use `buildRequestHeaders()` to create the API key, timestamp, and signature headers. Send the request to the same API URL using those headers and the exact method, path, and payload you signed.
+For a secured API v3 or v4 endpoint that this package does not wrap, use `buildRequestHeaders()` to create the API key, timestamp, and signature headers. Pass the path relative to `/api`; for GET requests, include the query string in that path or pass query parameters as the third argument. Send the request using the same method, path, and payload you signed.
 
 ```typescript
 import axios from "axios";
@@ -102,11 +106,11 @@ const response = await axios.post(
 );
 ```
 
-See [Bitkub's API v3 documentation](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) for endpoint requirements. `buildRequestHeaders()` calls Bitkub's server-time endpoint to create the timestamp used in the signature.
+`buildRequestHeaders()` calls Bitkub's v3 server-time endpoint to create the timestamp used in the signature. Market data, orders, and server time use v3; wallet balances and assets use v4. See the [v3](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v3.md) and [v4](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v4.md) documentation for endpoint requirements.
 
 ## API key version
 
-This package uses Bitkub API v3. If you are upgrading from an API key created for version 1.x or 2.x, create a new API key in Bitkub before using this client.
+This package uses endpoint-specific Bitkub API versions. API keys need the permissions required by the endpoints you call. If you are upgrading from an API key created for version 1.x or 2.x, create a new API key in Bitkub before using this client.
 
 ## Documentation
 
