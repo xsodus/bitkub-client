@@ -1,75 +1,128 @@
-A wrapper client class for calling Bitkub APIs (v3).
+# bitkub-client
 
-# Installation
+`bitkub-client` is a TypeScript wrapper for selected [Bitkub API v3](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v3.md) and [v4](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v4.md) endpoints. It handles API request signing for authenticated methods and returns Axios responses.
 
-By npm
+## Install
 
 ```bash
 npm install bitkub-client
-```
-
-By yarn
-
-```bash
+# or
 yarn add bitkub-client
 ```
 
-# How to use
+## Quick start
 
-1. Create the API key and secret from the [Bitkub exchange](https://www.bitkub.com/publicapi).
-2. Create an `BitkubClient` object by putting them to the constructor.
+Create an API key and secret in your [Bitkub account](https://www.bitkub.com/publicapi). Keep the secret private; load credentials from environment variables or another secrets manager instead of committing them to source control.
 
 ```typescript
 import BitkubClient, { BitkubEnvironment } from "bitkub-client";
 
 const client = new BitkubClient(
-  "[YOUR_API_KEY]",
-  "[YOUR_API_SECRET]",
-  BitkubEnvironment.PRODUCTION // Optional, default is BitkubEnvironment.TEST
+  process.env.BITKUB_API_KEY!,
+  process.env.BITKUB_API_SECRET!,
+  BitkubEnvironment.TEST
+);
+
+async function main() {
+  const time = await client.getServerTime();
+  console.log("Server time:", time.data);
+
+  const symbols = await client.getSymbols();
+  console.log("Symbols:", symbols.data.result);
+
+  const balances = await client.getBalances();
+  console.log("Balances:", balances.data.data);
+
+  const assets = await client.getWalletAssets();
+  console.log("Assets:", assets.data.data);
+}
+
+main().catch(console.error);
+```
+
+The constructor defaults to `BitkubEnvironment.TEST`. In this environment, `placeBid` and `placeAsk` call Bitkub's test-order endpoints. Set `BitkubEnvironment.PRODUCTION` to send those orders to the live endpoints. Check the environment before placing a live order.
+
+```typescript
+const client = new BitkubClient(
+  process.env.BITKUB_API_KEY!,
+  process.env.BITKUB_API_SECRET!,
+  BitkubEnvironment.PRODUCTION
 );
 ```
 
-3. Now, you can call the [Bitkub API](https://github.com/bitkub/bitkub-official-api-docs/blob/master/restful-api.md) through these functions. Please see more details at [bitkub-client document](https://xsodus-bitkub-client.netlify.app).
+## Available methods
+
+| Method | Purpose |
+| --- | --- |
+| `getServerTime()` | Get Bitkub server time. |
+| `getSymbols()` | List market symbols. |
+| `getBalances(params?)` | Get funding wallet balances from v4. Amounts are decimal strings in `response.data.data`. |
+| `getWalletAssets(params?)` | Get funding wallet assets from v4. |
+| `getBids(symbol, limit?)` | Get bids for a market; limit defaults to `1`. |
+| `getAsks(symbol, limit?)` | Get asks for a market; limit defaults to `1`. |
+| `placeBid(symbol, amount, rate, orderType?, clientId?)` | Place a buy order. Order type defaults to `BitkubOrderType.MARKET`. |
+| `placeAsk(symbol, amount, rate, orderType?, clientId?)` | Place a sell order. Order type defaults to `BitkubOrderType.MARKET`. |
+| `cancelOrder(hash, symbol?, orderId?, orderSide?)` | Cancel by order hash, or provide `null` for the hash and identify the order with symbol, ID, and side. |
+
+Methods return an Axios response. The Bitkub response body is in `.data`; for example, `const { data } = await client.getSymbols()`.
+
+### Place and cancel orders
 
 ```typescript
-// Get server time
-const serverTime = await client.getServerTime();
+import { BitkubOrderType } from "bitkub-client";
 
-// Get current balances
-const balances = await client.getBalances();
+// On the TEST environment this uses Bitkub's test-order endpoint.
+const order = await client.placeBid(
+  "BTC_THB",
+  1, // amount
+  500000, // rate
+  BitkubOrderType.LIMIT
+);
 
-// Get market symbols
-const symbols = await client.getSymbols();
+// Cancel using the order hash returned by Bitkub.
+const cancellation = await client.cancelOrder(order.data.result.hash);
 
-// Place a bid (buy)
-const placeBidResponse = await client.placeBid("BTC_THB", 1, 500000);
 ```
 
-4. If you want to call other POST APIs which are not in the list above, you can use `buildRequestHeaders()` to build your HTTP headers. It includes `X-BTK-TIMESTAMP` and `X-BTK-SIGN` to the headers. They're required fields for all secured APIs for version 3.
+You can also cancel with `cancelOrder(null, symbol, orderId, orderSide)` when you do not have the order hash. The side is `"buy"` or `"sell"`.
+
+`placeAsk` takes the same arguments as `placeBid`. Review Bitkub's API documentation for symbol formats, order requirements, and response fields.
+
+## Signing other API requests
+
+For a secured API v3 or v4 endpoint that this package does not wrap, use `buildRequestHeaders()` to create the API key, timestamp, and signature headers. Pass the path relative to `/api`; for GET requests, include the query string in that path or pass query parameters as the third argument. Send the request using the same method, path, and payload you signed.
 
 ```typescript
-const uri = `/v3/market/cancel-order`;
-const payload = { hash: "..." };
-const requestHeaders = await client.buildRequestHeaders("POST", uri, payload);
+import axios from "axios";
+
+const path = "/v3/market/cancel-order";
+const payload = { hash: "ORDER_HASH" };
+const headers = await client.buildRequestHeaders("POST", path, payload);
+
+const response = await axios.post(
+  `https://api.bitkub.com/api${path}`,
+  payload,
+  { headers }
+);
 ```
 
-> [!NOTE]
-> This client uses Bitkub API version 3. You must generate a new API key on the Bitkub website if you are moving from version 1.x or 2.x.
+`buildRequestHeaders()` calls Bitkub's v3 server-time endpoint to create the timestamp used in the signature. Market data, orders, and server time use v3; wallet balances and assets use v4. See the [v3](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v3.md) and [v4](https://github.com/bitkub/bitkub-official-api-docs/blob/master/rest-v4.md) documentation for endpoint requirements.
 
-# Contributions
+## API key version
 
-## Pull Requests
+This package uses endpoint-specific Bitkub API versions. API keys need the permissions required by the endpoints you call. If you are upgrading from an API key created for version 1.x or 2.x, create a new API key in Bitkub before using this client.
 
-Feel free to send the PR if you're interested. Thanks!
+## Documentation
 
-## Test Running
+See the [bitkub-client API documentation](https://xsodus-bitkub-client.netlify.app) for TypeScript types and further details.
 
-The project uses integration tests to ensure that the requests are correctly processed.
+## Contributing
 
-You can run them via:
+Install dependencies and run the integration tests:
 
 ```bash
+yarn install
 yarn test
 ```
 
-To write a new test, we suggest creating mock APIs using the `nock` library to avoid changing actual account data and ensure consistent test results. You can find examples in `src/BitkubClient.test.ts`.
+Tests use `nock` to mock Bitkub API requests. Add or update mocks in `src/BitkubClient.test.ts` so tests do not depend on live requests or change account data. Pull requests are welcome.
