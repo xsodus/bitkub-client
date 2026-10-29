@@ -1,0 +1,69 @@
+name: Dependabot auto-merge
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: >-
+      github.repository == 'xsodus/bitkub-client' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # This privileged workflow must never check out or execute PR code.
+      - name: Wait for PR checks on this commit
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          for attempt in {1..90}; do
+            run_info=$(gh api --method GET \
+              "repos/$GITHUB_REPOSITORY/actions/workflows/pr-check.yml/runs" \
+              -f event=pull_request -f head_sha="$PR_HEAD_SHA" -f per_page=100 \
+              --jq "
+                .workflow_runs
+                | map(select(any(.pull_requests[]; .number == $PR_NUMBER)))
+                | sort_by(.id) | last
+                | [.status // \"pending\", .conclusion // \"\"] | @tsv")
+            read -r status conclusion <<< "$run_info"
+            if [ "$status" = completed ]; then
+              if [ "$conclusion" = success ]; then
+                echo "PR checks passed for $PR_HEAD_SHA."
+                exit 0
+              fi
+              echo "::error::PR checks concluded with $conclusion. Merge is blocked."
+              exit 1
+            fi
+            echo "Waiting for PR checks on $PR_HEAD_SHA ($status, attempt $attempt/90)."
+            sleep 10
+          done
+          echo "::error::Timed out waiting for PR checks. Merge is blocked."
+          exit 1
+
+      - name: Read Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for patch and minor updates
+        if: >-
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash --match-head-commit "$PR_HEAD_SHA" "$PR_URL"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
