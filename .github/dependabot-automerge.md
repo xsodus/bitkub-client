@@ -3,6 +3,8 @@
 1. In repository **Settings > Code security**, enable Dependabot alerts and Dependabot security updates.
 2. In **Settings > General > Pull Requests**, enable **Allow auto-merge** and squash merging.
 3. Add a branch rule or ruleset for `main` that requires the `test` check from `PR Check` before merging.
+   Keep this check in an active ruleset with no bypass actors.
+   In **Settings > Actions > General > Workflow permissions**, enable **Allow GitHub Actions to create and approve pull requests**.
 4. Merge `.github/workflows/dependabot-automerge.yml` into `main`.
 5. Open or update a Dependabot PR. Verify that `Dependabot auto-merge` waits for `PR Check` on the same head commit before enabling auto-merge.
 
@@ -10,7 +12,9 @@ The workflow accepts patch and minor updates, including grouped updates classifi
 
 Failed, cancelled, skipped, missing, or timed-out PR checks block the merge step. The wait expires after about 15 minutes. After fixing CI or rerunning it successfully, rerun the auto-merge workflow if its previous run failed. The merge command checks the PR head SHA so an older run cannot merge a newer commit. Required checks and approvals still apply.
 
-The privileged workflow reads metadata and enables merging without checking out or executing PR code. It uses the built-in `GITHUB_TOKEN`; no additional secret is required. Publishing to npm remains available through the existing `Manual Deploy to NPM` workflow.
+After CI passes, the workflow approves eligible Dependabot patch and minor updates on the tested commit, then enables auto-merge. This satisfies a one-review requirement when no CODEOWNERS approval is required for the changed files. Major and unclassified updates receive no automated approval.
+
+The privileged workflow reads metadata, approves eligible updates, and enables merging without checking out or executing PR code. It uses the built-in `GITHUB_TOKEN`; no additional secret is required. Publishing to npm remains available through the existing `Manual Deploy to NPM` workflow.
 
 For security fixes only, set `open-pull-requests-limit: 0` in the npm entry in `.github/dependabot.yml` and close existing regular update PRs before activating auto-merge.
 
