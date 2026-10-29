@@ -21,7 +21,8 @@ describe("Bitkub client", () => {
     client = new BitkubClient(
       process.env.BITKUB_API_KEY || "test-key",
       process.env.BITKUB_API_SECRET || "test-secret",
-      BitkubEnvironment.PRODUCTION
+      BitkubEnvironment.PRODUCTION,
+      TEST_API_URL
     );
 
     // Server Time API
@@ -51,7 +52,7 @@ describe("Bitkub client", () => {
   it("Can generate request header for GET method", async () =>{
     client.baseApiUrl = TEST_API_URL;
 
-    const requestHeaders = await client.buildRequestHeaders('GET','/v3/hello?message=true', { test: "111" });
+    const requestHeaders = await client.buildRequestHeaders('GET','/v3/hello?message=true');
 
     expect(requestHeaders).toMatchSnapshot();
   })
@@ -89,34 +90,41 @@ describe("Bitkub client", () => {
     const result = await client.getBalances();
     const content = result.data;
     expect(content).toMatchSnapshot();
+    expect(content.data[0].available).toBe("0.00112343");
+  });
+
+  it("Get wallet assets", async () => {
+    client.baseApiUrl = TEST_API_URL;
+
+    const result = await client.getWalletAssets();
+
+    expect(result.data.data).toEqual({ BTC: "0.00112343" });
   });
 
   it("Get bids", async () => {
-    // TODO : We need to update symbol after Bitkub fully migrated to V3
-    const response = await client.getBids("THB_BTC");
+    const response = await client.getBids("BTC_THB");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
-    const [orderId, timestamp, volume, rate, amount] = response.data.result[0];
+    const { order_id: orderId, timestamp, volume, price, size } = response.data.result[0];
 
     expect(orderId).not.toBeUndefined();
     expect(timestamp).not.toBeUndefined();
     expect(volume).not.toBeUndefined();
-    expect(rate).not.toBeUndefined();
-    expect(amount).not.toBeUndefined();
+    expect(price).not.toBeUndefined();
+    expect(size).not.toBeUndefined();
   });
 
   it("Get asks", async () => {
-    // TODO : We need to update symbol after Bitkub fully migrated to V3
-    const response = await client.getAsks("THB_BTC");
+    const response = await client.getAsks("BTC_THB");
     expect(response.data).toHaveProperty("error", BitkubErrorCode.NO_ERROR);
 
-    const [orderId, timestamp, volume, rate, amount] = response.data.result[0];
+    const { order_id: orderId, timestamp, volume, price, size } = response.data.result[0];
 
     expect(orderId).not.toBeUndefined();
     expect(timestamp).not.toBeUndefined();
     expect(volume).not.toBeUndefined();
-    expect(rate).not.toBeUndefined();
-    expect(amount).not.toBeUndefined();
+    expect(price).not.toBeUndefined();
+    expect(size).not.toBeUndefined();
   });
 
   it("Open position through mocked server", async () => {
